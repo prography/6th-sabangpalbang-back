@@ -2,7 +2,6 @@
 
 import 'reflect-metadata'
 import { createExpressServer } from 'routing-controllers'
-import { UserController } from './UserConroller'
 import { createConnection } from 'typeorm'
 // import { User } from './entity/User'
 // TODO: 배포할땐 ormconfig.json 에서 synchronize false를 해야함미마
