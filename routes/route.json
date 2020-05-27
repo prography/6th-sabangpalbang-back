@@ -1,7 +1,0 @@
-[
-  {
-    "path": "/cocktail",
-    "method": "get",
-    "handler": "cocktail/searchCocktail.js"
-  }
-]

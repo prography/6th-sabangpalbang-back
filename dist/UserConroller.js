@@ -36,13 +36,13 @@ var UserController = (_dec = JsonController(), _dec2 = Get("/users"), _dec3 = Po
     }
   }, {
     key: "post",
-    value: function post(@Body()
-    user) {
+    value: function post(user) {
       return "Saving user...";
     }
   }]);
 
+  Body()(UserController.prototype, "post", 0);
   return UserController;
 }(), (_applyDecoratedDescriptor(_class2.prototype, "getAll", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "getAll"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "post", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "post"), _class2.prototype)), _class2)) || _class);
 exports.UserController = UserController;
-//# sourceMappingURL=UserConroller.js.map
+//# sourceMappingURL=UserConroller.ts.map
