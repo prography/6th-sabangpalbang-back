@@ -4,7 +4,7 @@
    "username": "root",
    "password": "test",
    "database": "cocktender",
-   "synchronize": true,
+   "synchronize": false,
    "logging": false,
    "entities": [
       "src/entity/**/*.ts"

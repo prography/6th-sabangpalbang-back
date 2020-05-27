@@ -6,7 +6,7 @@
    "author": "KimGenius & devAon",
    "license": "MIT",
    "scripts": {
-      "start": "nodemon --watch src --exec 'ts-node' src/app.ts",
+      "start": "nodemon --watch src --exec ts-node src/app.ts",
       "a": "babel-node src/app.ts --require babel-polyfill"
    },
    "dependencies": {
@@ -18,14 +18,15 @@
       "express": "^4.17.1",
       "express-asyncify": "^1.0.1",
       "fs": "^0.0.1-security",
+      "mssql": "^4.0.4",
       "multer": "^1.4.2",
+      "mysql": "^2.18.1",
       "mysql2": "^2.1.0",
-      "reflect-metadata": "^0.1.10",
+      "reflect-metadata": "^0.1.13",
       "routing-controllers": "^0.8.1",
       "sequelize": "^5.21.10",
-      "typeorm": "0.2.25",
-      "typescript": "^3.9.3",
-      "mssql": "^4.0.4"
+      "typeorm": "^0.2.25",
+      "typescript": "^3.9.3"
    },
    "devDependencies": {
       "@babel/cli": "^7.8.4",
@@ -36,6 +37,7 @@
       "@types/body-parser": "^1.19.0",
       "@types/express": "^4.17.6",
       "@types/multer": "^1.4.3",
+      "@types/node": "^8.10.61",
       "@typescript-eslint/eslint-plugin": "^3.0.0",
       "@typescript-eslint/parser": "^3.0.0",
       "babel-eslint": "^10.1.0",
@@ -51,7 +53,6 @@
       "sequelize-cli": "^5.5.1",
       "ts-loader": "^7.0.4",
       "ts-node": "3.3.0",
-      "@types/node": "^8.0.29",
       "typescript": "3.3.3333"
    }
 }
