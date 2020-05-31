@@ -4,4 +4,7 @@ node_modules/
 build/
 tmp/
 temp/
-
+ormconfig.json
+prod-ormconfig.json
+deploy-prod.sh
+dist/
