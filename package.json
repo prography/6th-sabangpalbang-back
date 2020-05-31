@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon --watch src --exec 'ts-node' src/app.ts",
-    "a": "babel-node src/app.ts --require babel-polyfill",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
