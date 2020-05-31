@@ -1,9 +1,9 @@
 {
    "type": "mysql",
-   "host": "localhost",
-   "username": "root",
-   "password": "test",
-   "database": "cocktender",
+   "host": "dbhost",
+   "username": "username",
+   "password": "password",
+   "database": "dbname",
    "synchronize": true,
    "logging": false,
    "entities": [

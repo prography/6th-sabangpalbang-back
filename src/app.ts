@@ -18,6 +18,9 @@ createConnection().then(async (connection) => {
     controllers: [baseDir + '/controllers/*.ts'],
   })
 
+  app.get('/ping', (req, res) => {
+    return res.send('pong')
+  })
   app.listen(3000, () => {
     console.log('서 버 러 닝')
   })
