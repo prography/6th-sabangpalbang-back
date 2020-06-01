@@ -8,3 +8,4 @@ ormconfig.json
 prod-ormconfig.json
 deploy-prod.sh
 dist/
+**/.DS_Store
