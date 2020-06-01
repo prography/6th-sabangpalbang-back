@@ -11,7 +11,7 @@ import { Flavor } from '../entity/Flavor'
 import { CocktailHasFlavor } from '../entity/CocktailHasFlavor'
 
 
-@JsonController('/final/dbscripts')
+@JsonController('/init')
 export class DBScriptController {
   @Get('/cocktails')
   public async cocktails() {
@@ -74,33 +74,33 @@ export class DBScriptController {
 
   // Tag T
   @Get('/tags')
-  public async tags() {
+  public async insertTagData() {
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
-      let tagData = []
+      const tagData = []
       for (const element of cocktailArr) {
         const tagArr = element.tag.split(', ')
         for (let i = 0; i < tagArr.length; i++) {
-          tagData.push(tagArr[i])
-        }
-        tagData.sort()
-        tagData = Array.from(new Set(tagData))
-      }
-
-      for (const element of tagData) {
-        if (element.length) {
-          const dd = await Tag.find({ where: { name: element } })
-          if (dd.length == 0) {
-            const tag = new Tag()
-            tag.name = element
-            await Tag.save(tag)
+          const tagName = tagArr[i].trim()
+          if (tagName.length && !tagData.includes(tagName)) {
+            tagData.push(tagName)
           }
         }
       }
+
+      for (const tagName of tagData) {
+        const isAlreadyTagData = await Tag.findByName(tagName)
+        if (!isAlreadyTagData) await Tag.saveData(tagName)
+      }
     } catch (err) {
-      console.log(err)
+      return {
+        isSuccessful: false,
+        errorMsg: err,
+      }
     }
-    return 'Tag T DBScript complete'
+    return {
+      isSuccessful: true,
+    }
   }
 
 
