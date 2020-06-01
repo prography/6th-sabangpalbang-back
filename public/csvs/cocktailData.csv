@@ -1,4 +1,4 @@
-﻿name,abv,non_abv,abv_classification,ingredients,flavor,tag,base,description,img_url
+name,abv,non_abv,abv_classification,ingredients,flavor,tag,base,description,img_url
 골드메달리스트,0,1,0,"딸기, 바나나","딸기, 바나나","딸기, 바나나, 그레나딘 시럽, 콜라다 믹서",없음,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 깔루아 밀크,5,1,1,우유,우유,"깔루아, 우유",깔루아,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 데낄라 선라이즈,12,,2,"오렌지 주스, 그레나딘 시럽",,"데킬라, 오렌지",데킬라,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
@@ -18,7 +18,7 @@
 애플 마티니,20,,3,"애플, 라임",사과,보드카,보드카,마티니 중 여자들이 가장 선호하는 사과맛 마티니,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 옥보단,8,,1,"복숭아, 코코넛, 레몬, 오렌지","석류, 체리",리큐어,리큐어,복숭아의 코코넛 술에 상큼한 오렌지쥬스와 석류시럽,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 우우,14,,2,"크랜베리 주스, 피치 시냅스",복숭아,"보드카, 피치, 크랜베리",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-준벅,10,,1,"메론, 코코넛, 바나나, 레몬, 파인",메론,"리큐어,",리큐어,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+준벅,10,,1,"메론, 코코넛, 바나나, 레몬, 파인",메론,리큐어,리큐어,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 진 토닉,10,,1,토닉워터,술,"진, 적당한",진,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 체리블라썸,30,,5,"체리, 레몬",체리,브랜디,브랜디,달콤한 체리향이 매력적인 칵테일,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 카시스오렌지,20,,3,오렌지,오렌지,"카시스 리큐르, 오렌지",카시스,와인과 비슷한 카시스와 오렌지쥬스의 조합,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
