@@ -22,6 +22,7 @@
     "semi": ["error", "never"],
     "spaced-comment": "error",
     "object-curly-spacing": ["error", "always"],
-    "new-cap": "off"
+    "new-cap": "off",
+    "require-jsdoc": "off"
   }
 }
