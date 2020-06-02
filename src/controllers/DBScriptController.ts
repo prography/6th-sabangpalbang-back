@@ -17,49 +17,44 @@ export class DBScriptController {
   public async cocktails() {
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
-
       for (const element of cocktailArr) {
-        const cocktail = new Cocktail()
-        const cocktailName = await Cocktail.find({
-          where: { name: element.name },
-        })
-        if (!cocktailName.length) { // DB에 칵테일 중복값 없으면
-          cocktail.img_url = element.img_url
+        const cocktailName = await Cocktail.findOneByName(element.name)
+        if (!cocktailName) { // DB에 칵테일 중복값 없으면
+          const cocktail = new Cocktail()
+          cocktail.imgUrl = element.img_url
           cocktail.name = element.name
           cocktail.ingredients = element.ingredients
           cocktail.abv = element.abv
-          cocktail.abv_classification_idx = element.abv_classification
-          if (element.description.length) {
-            cocktail.description = element.description
-          }
-          if (element.non_abv === 1) {
-            cocktail.non_abv = 1
-          }
+          // TODO: abvClassification Table 이랑 연동
+          cocktail.abvClassificationIdx = element.abv_classification
+          cocktail.description = element.description
+          cocktail.nonAbv = element.nonAbv === 1
 
+          // TODO: BASE Table 이랑 연동
           switch (element.base) {
             case '없음':
-              cocktail.base_idx = 1
+              cocktail.baseIdx = 1
               break
             case '데킬라':
-              cocktail.base_idx = 2
+              cocktail.baseIdx = 2
               break
             case '럼':
-              cocktail.base_idx = 3
+              cocktail.baseIdx = 3
               break
             case '진':
-              cocktail.base_idx = 4
+              cocktail.baseIdx = 4
               break
             case '리큐어':
-              cocktail.base_idx = 5
+              cocktail.baseIdx = 5
               break
             case '보드카':
-              cocktail.base_idx = 6
+              cocktail.baseIdx = 6
               break
             case '브랜디':
-              cocktail.base_idx = 7
+              cocktail.baseIdx = 7
               break
             default: // 기타
-              cocktail.base_idx = 8
+              cocktail.baseIdx = 8
               break
           }
           await Cocktail.save(cocktail)
