@@ -6,9 +6,7 @@ import {
 const csvManager = require('../../module/csvManager')
 import { Cocktail } from '../entity/Cocktail'
 import { Tag } from '../entity/Tag'
-import { CocktailHasTag } from '../entity/CocktailHasTag'
 import { Flavor } from '../entity/Flavor'
-import { CocktailHasFlavor } from '../entity/CocktailHasFlavor'
 import { AbvClassification } from '../entity/AbvClassification'
 import { Base } from '../entity/Base'
 
@@ -22,6 +20,7 @@ export class DBScriptController {
     await this.insertAbvClassification()
     await this.insertBase()
     await this.insertTagData()
+    await this.insertFlavors()
     const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
     const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
     try {
@@ -61,6 +60,15 @@ export class DBScriptController {
             tagList.push(tag)
           }
           cocktail.tags = tagList
+          // 맛 정보
+          const flavorList = []
+          const flavorNameArr = element.flavor.split(', ')
+          for (let i = 0; i < flavorNameArr.length; i++) {
+            const flavorName = flavorNameArr[i].trim()
+            const flavor = await Flavor.findByName(flavorName)
+            flavorList.push(flavor)
+          }
+          cocktail.flavors = flavorList
           await Cocktail.save(cocktail)
         }
       }
@@ -101,7 +109,6 @@ export class DBScriptController {
     }
   }
 
-
   // Tag T
   @Get('/tags')
   public async insertTagData() {
@@ -133,94 +140,25 @@ export class DBScriptController {
     }
   }
 
-
-  // Cocktail has tag
-  @Get('/cocktailHasTag')
-  public async cocktailHasTag() {
-    try {
-      const cocktailArr = await csvManager.read('cocktailData.csv')
-      for (const element of cocktailArr) {
-        const cocktailIdx = (await Cocktail.find({
-          where: { name: element.name },
-        }))[0].idx
-
-        if (cocktailIdx !== 0) {
-          const tagArr = element.tag.split(', ')
-          for (const element of tagArr) {
-            const tagIdx = (await Tag.find({ where: { name: element } }))[0].idx
-            if (cocktailIdx !== 0 && tagIdx !== 0) {
-              const cocktailHasTag = new CocktailHasTag()
-              cocktailHasTag.cocktailIdx = cocktailIdx
-              cocktailHasTag.tagIdx = tagIdx
-              await CocktailHasTag.save(cocktailHasTag)
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.log(err)
-    }
-    return 'Tag T DBScript complete'
-  }
-
-
   // Flavor T
   @Get('/flavors')
-  public async flavors() {
+  public async insertFlavors() {
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
-      let flavorData = []
+      const flavorData = []
       for (const element of cocktailArr) {
         const flavorArr = element.flavor.split(', ')
         for (let i = 0; i < flavorArr.length; i++) {
-          flavorData.push(flavorArr[i])
-        }
-        flavorData.sort()
-        flavorData = Array.from(new Set(flavorData))
-      }
-
-      for (const element of flavorData) {
-        if (element.length) {
-          const dd = await Flavor.find({ where: { name: element } })
-          if (dd.length == 0) {
-            const flavor = new Flavor()
-            flavor.name = element
-            await Flavor.save(flavor)
+          const flavorName = flavorArr[i].trim()
+          if (flavorName.length && !flavorData.includes(flavorName)) {
+            flavorData.push(flavorName)
           }
         }
       }
-    } catch (err) {
-      console.log(err)
-    }
-    return 'Flavor T DBScript complete'
-  }
 
-
-  // Cocktail has flavor
-  @Get('/cocktailHasFlavor')
-  public async cocktailHasFlavor() {
-    try {
-      const cocktailArr = await csvManager.read('cocktailData.csv')
-      for (const element of cocktailArr) {
-        const cocktailIdx = (await Cocktail.find({
-          where: { name: element.name },
-        }))[0].idx
-
-        if (cocktailIdx !== 0) {
-          const flavorArr = element.flavor.split(', ')
-          for (const element of flavorArr) {
-            const flavorIdx = (await Flavor.find({
-              where: { name: element },
-            }))[0].idx
-
-            if (cocktailIdx !== 0 && flavorIdx !== 0) {
-              const cocktailHasFlavor = new CocktailHasFlavor()
-              cocktailHasFlavor.cocktailIdx = cocktailIdx
-              cocktailHasFlavor.flavorIdx = flavorIdx
-              await CocktailHasFlavor.save(cocktailHasFlavor)
-            }
-          }
-        }
+      for (const flavorName of flavorData) {
+        const isAlreadyFlavorData = await Flavor.findByName(flavorName)
+        if (!isAlreadyFlavorData) await Flavor.saveData(flavorName, '향 설명')
       }
     } catch (err) {
       console.log(err)

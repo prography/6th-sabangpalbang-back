@@ -7,6 +7,7 @@ import {
 import { AbvClassification } from './AbvClassification'
 import { Base } from './Base'
 import { Tag } from './Tag'
+import { Flavor } from './Flavor'
 
 @Entity()
 export class Cocktail extends BaseEntity {
@@ -31,9 +32,13 @@ export class Cocktail extends BaseEntity {
   @Column()
   description: string;
 
-  @ManyToMany(() => Tag, (tags) => tags.idx)
+  @ManyToMany(() => Tag)
   @JoinTable()
   tags: Tag[]
+
+  @ManyToMany(() => Flavor)
+  @JoinTable()
+  flavors: Flavor[]
 
   @ManyToOne(() => Base)
   @JoinColumn()
