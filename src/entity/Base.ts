@@ -36,9 +36,4 @@ export class Base extends BaseEntity {
       where: { name },
     })
   }
-  // @OneToMany(
-  //   (type) => Cocktail,
-  //   (cocktail) => cocktail.base
-  // )
-  // cocktails!: Cocktail[];
 }
