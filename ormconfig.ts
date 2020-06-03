@@ -1,9 +1,9 @@
 import * as dotenv from 'dotenv'
 
 const dirPath = __dirname
-let path = dirPath + '/.env.dev'
+let path = dirPath + '/envs/.env.dev'
 if (process.env.NODE_ENV === 'production') {
-  path = dirPath + '/.env.production'
+  path = dirPath + '/envs/.env.production'
 }
 dotenv.config({ path })
 module.exports = {

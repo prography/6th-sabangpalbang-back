@@ -7,5 +7,5 @@ temp/
 deploy-prod.sh
 dist/
 **/.DS_Store
-.env.dev
-.env.production
+envs/.env.dev
+envs/.env.production
