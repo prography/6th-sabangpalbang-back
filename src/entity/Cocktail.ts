@@ -5,6 +5,7 @@ import {
   Column, JoinColumn, ManyToOne,
 } from 'typeorm'
 import { AbvClassification } from './AbvClassification'
+import { Base } from './Base'
 
 @Entity()
 export class Cocktail extends BaseEntity {
@@ -29,8 +30,9 @@ export class Cocktail extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
-  baseIdx: number;
+  @ManyToOne(() => Base)
+  @JoinColumn()
+  base: Base;
 
   @ManyToOne(() => AbvClassification)
   @JoinColumn()

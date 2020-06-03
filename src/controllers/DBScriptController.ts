@@ -10,13 +10,19 @@ import { CocktailHasTag } from '../entity/CocktailHasTag'
 import { Flavor } from '../entity/Flavor'
 import { CocktailHasFlavor } from '../entity/CocktailHasFlavor'
 import { AbvClassification } from '../entity/AbvClassification'
+import { Base } from '../entity/Base'
 
+const NON_BASE_TEXT = '없음'
+const ANOTHER_BASE_TEXT = '기타'
 
 @JsonController('/init')
 export class DBScriptController {
   @Get('/cocktails')
   public async cocktails() {
     await this.insertAbvClassification()
+    await this.insertBase()
+    const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
+    const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       for (const element of cocktailArr) {
@@ -32,33 +38,16 @@ export class DBScriptController {
           cocktail.abvClassification = abvClassification
           cocktail.description = element.description
           cocktail.nonAbv = element.nonAbv === 1
-
-          // TODO: BASE Table 이랑 연동
-          switch (element.base) {
-          case '없음':
-            cocktail.baseIdx = 1
-            break
-          case '데킬라':
-            cocktail.baseIdx = 2
-            break
-          case '럼':
-            cocktail.baseIdx = 3
-            break
-          case '진':
-            cocktail.baseIdx = 4
-            break
-          case '리큐어':
-            cocktail.baseIdx = 5
-            break
-          case '보드카':
-            cocktail.baseIdx = 6
-            break
-          case '브랜디':
-            cocktail.baseIdx = 7
-            break
-          default: // 기타
-            cocktail.baseIdx = 8
-            break
+          if (element.base === NON_BASE_TEXT) {
+            cocktail.base = nonBase
+          } else {
+            const base = await Base.findDataForCocktail(element.base)
+            // 베이스가 검색되지 않으면 기타
+            if (!base) {
+              cocktail.base = anotherBase
+            } else {
+              cocktail.base = base
+            }
           }
           await Cocktail.save(cocktail)
         }
@@ -78,6 +67,14 @@ export class DBScriptController {
         continue
       }
       await AbvClassification.saveData(i, i + 4, abvDesc[i / 5])
+    }
+  }
+
+  async insertBase() {
+    const baseNameList = ['없음', '데킬라', '럼', '진', '리큐어', '보드카', '브랜디', '기타']
+    for (const baseName of baseNameList) {
+      // TODO: 이미지 링크, 도수, 설명 추가
+      await Base.saveData('https://naver.com', baseName, 40, '설명~')
     }
   }
 
