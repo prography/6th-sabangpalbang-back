@@ -20,11 +20,11 @@ export class AbvClassification extends BaseEntity {
   description: string;
 
   static async saveData(minAbv: number, maxAbv: number, description: string) {
-    const tag = new AbvClassification()
-    tag.minAbv = minAbv
-    tag.maxAbv = maxAbv
-    tag.description = description
-    await AbvClassification.save(tag)
+    const abvClassification = new AbvClassification()
+    abvClassification.minAbv = minAbv
+    abvClassification.maxAbv = maxAbv
+    abvClassification.description = description
+    await AbvClassification.save(abvClassification)
   }
 
   static async findDataForCocktail(targetAbv: number) {
