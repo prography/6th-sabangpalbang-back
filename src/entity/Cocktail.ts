@@ -51,4 +51,9 @@ export class Cocktail extends BaseEntity {
   static async findOneByName(name: string) {
     return await Cocktail.findOne({ where: { name } })
   }
+
+  // TODO: 검색으로 개선
+  static async search() {
+    return await Cocktail.find({ relations: ['tags', 'flavors', 'base', 'abvClassification'] })
+  }
 }
