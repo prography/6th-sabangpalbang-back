@@ -9,12 +9,14 @@ import { Tag } from '../entity/Tag'
 import { CocktailHasTag } from '../entity/CocktailHasTag'
 import { Flavor } from '../entity/Flavor'
 import { CocktailHasFlavor } from '../entity/CocktailHasFlavor'
+import { AbvClassification } from '../entity/AbvClassification'
 
 
 @JsonController('/init')
 export class DBScriptController {
   @Get('/cocktails')
   public async cocktails() {
+    await this.insertAbvClassification()
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       for (const element of cocktailArr) {
@@ -25,8 +27,9 @@ export class DBScriptController {
           cocktail.name = element.name
           cocktail.ingredients = element.ingredients
           cocktail.abv = element.abv
-          // TODO: abvClassification Table 이랑 연동
-          cocktail.abvClassificationIdx = element.abv_classification
+          // abvClassification Table 이랑 연동
+          const abvClassification = await AbvClassification.findDataForCocktail(element.abv)
+          cocktail.abvClassification = abvClassification
           cocktail.description = element.description
           cocktail.nonAbv = element.nonAbv === 1
 
@@ -64,6 +67,18 @@ export class DBScriptController {
       console.log(err)
     }
     return 'cocktail T DBScript complete'
+  }
+
+  async insertAbvClassification() {
+    // TODO: desc 정하기
+    const abvDesc = ['엥', '맥주~', '청하', '참이슬', '말리부', '리큐르', '예거', '앱솔루트', '오우..']
+    for (let i = 0; i <= 40; i += 5) {
+      if (i === 40) {
+        await AbvClassification.saveData(i, 100, abvDesc[i / 5])
+        continue
+      }
+      await AbvClassification.saveData(i, i + 4, abvDesc[i / 5])
+    }
   }
 
 

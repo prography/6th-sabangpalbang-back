@@ -2,8 +2,9 @@ import {
   BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
-  Column,
+  Column, JoinColumn, ManyToOne,
 } from 'typeorm'
+import { AbvClassification } from './AbvClassification'
 
 @Entity()
 export class Cocktail extends BaseEntity {
@@ -31,24 +32,11 @@ export class Cocktail extends BaseEntity {
   @Column()
   baseIdx: number;
 
-  @Column()
-  abvClassificationIdx: number;
+  @ManyToOne(() => AbvClassification)
+  @JoinColumn()
+  abvClassification: AbvClassification;
 
   static async findOneByName(name: string) {
     return await Cocktail.findOne({ where: { name } })
   }
-
-  // @ManyToOne(
-  //   (type) => Base,
-  //   (base) => base.cocktails, { nullable: false, onDelete: 'CASCADE' }
-  // )
-  // @JoinColumn({ name: "base_idx" })
-  // base!: Base;
-
-  // @ManyToOne(
-  //   (type) => AbvClassification,
-  //   (abvClassification) => abvClassification.cocktails, { nullable: false, onDelete: 'CASCADE' }
-  // )
-  // @JoinColumn({ name: "abv_classification_idx" })
-  // abvClassification!: AbvClassification;
 }
