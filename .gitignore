@@ -4,8 +4,8 @@ node_modules/
 build/
 tmp/
 temp/
-ormconfig.json
-prod-ormconfig.json
 deploy-prod.sh
 dist/
 **/.DS_Store
+.env.dev
+.env.production
