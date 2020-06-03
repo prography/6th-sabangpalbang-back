@@ -2,10 +2,11 @@ import {
   BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
-  Column, JoinColumn, ManyToOne,
+  Column, JoinColumn, ManyToOne, ManyToMany, JoinTable,
 } from 'typeorm'
 import { AbvClassification } from './AbvClassification'
 import { Base } from './Base'
+import { Tag } from './Tag'
 
 @Entity()
 export class Cocktail extends BaseEntity {
@@ -29,6 +30,10 @@ export class Cocktail extends BaseEntity {
 
   @Column()
   description: string;
+
+  @ManyToMany(() => Tag, (tags) => tags.idx)
+  @JoinTable()
+  tags: Tag[]
 
   @ManyToOne(() => Base)
   @JoinColumn()

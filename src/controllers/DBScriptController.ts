@@ -21,6 +21,7 @@ export class DBScriptController {
   public async cocktails() {
     await this.insertAbvClassification()
     await this.insertBase()
+    await this.insertTagData()
     const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
     const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
     try {
@@ -29,15 +30,17 @@ export class DBScriptController {
         const cocktailName = await Cocktail.findOneByName(element.name)
         if (!cocktailName) { // DB에 칵테일 중복값 없으면
           const cocktail = new Cocktail()
+          // 기초 정보 삽입
           cocktail.imgUrl = element.img_url
           cocktail.name = element.name
           cocktail.ingredients = element.ingredients
           cocktail.abv = element.abv
-          // abvClassification Table 이랑 연동
-          const abvClassification = await AbvClassification.findDataForCocktail(element.abv)
-          cocktail.abvClassification = abvClassification
           cocktail.description = element.description
           cocktail.nonAbv = element.nonAbv === 1
+          // 도수 분류 정보
+          const abvClassification = await AbvClassification.findDataForCocktail(element.abv)
+          cocktail.abvClassification = abvClassification
+          // 베이스 정보
           if (element.base === NON_BASE_TEXT) {
             cocktail.base = nonBase
           } else {
@@ -49,6 +52,15 @@ export class DBScriptController {
               cocktail.base = base
             }
           }
+          // 태그 정보
+          const tagList = []
+          const tagNameArr = element.tag.split(', ')
+          for (let i = 0; i < tagNameArr.length; i++) {
+            const tagName = tagNameArr[i].trim()
+            const tag = await Tag.findByName(tagName)
+            tagList.push(tag)
+          }
+          cocktail.tags = tagList
           await Cocktail.save(cocktail)
         }
       }
