@@ -3,11 +3,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn,
 } from 'typeorm'
-import { Base } from './Base'
-import { AbvClassification } from './AbvClassification'
 
 @Entity()
 export class Cocktail extends BaseEntity {

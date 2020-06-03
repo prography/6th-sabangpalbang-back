@@ -3,27 +3,25 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany
-} from 'typeorm';
-import { Cocktail } from './Cocktail';
+  OneToOne, JoinColumn,
+} from 'typeorm'
+import { Cocktail } from './Cocktail'
 
 @Entity()
-export class AbvClassification extends BaseEntity { 
+export class AbvClassification extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  idx: number;
 
-    @PrimaryGeneratedColumn()
-    idx: number;
+  @Column()
+  minAbv: number
 
-    @Column()
-    classification: string;
+  @Column()
+  maxAbv: number;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-
-    // @OneToMany(
-    //   (type) => Cocktail,
-    //   (cocktail) => cocktail.abvClassification
-    // )
-    // cocktails!: Cocktail[];
-
+  @OneToOne((type) => Cocktail)
+  @JoinColumn()
+  cocktail: Cocktail;
 }

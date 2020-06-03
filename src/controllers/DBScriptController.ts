@@ -32,30 +32,30 @@ export class DBScriptController {
 
           // TODO: BASE Table 이랑 연동
           switch (element.base) {
-            case '없음':
-              cocktail.baseIdx = 1
-              break
-            case '데킬라':
-              cocktail.baseIdx = 2
-              break
-            case '럼':
-              cocktail.baseIdx = 3
-              break
-            case '진':
-              cocktail.baseIdx = 4
-              break
-            case '리큐어':
-              cocktail.baseIdx = 5
-              break
-            case '보드카':
-              cocktail.baseIdx = 6
-              break
-            case '브랜디':
-              cocktail.baseIdx = 7
-              break
-            default: // 기타
-              cocktail.baseIdx = 8
-              break
+          case '없음':
+            cocktail.baseIdx = 1
+            break
+          case '데킬라':
+            cocktail.baseIdx = 2
+            break
+          case '럼':
+            cocktail.baseIdx = 3
+            break
+          case '진':
+            cocktail.baseIdx = 4
+            break
+          case '리큐어':
+            cocktail.baseIdx = 5
+            break
+          case '보드카':
+            cocktail.baseIdx = 6
+            break
+          case '브랜디':
+            cocktail.baseIdx = 7
+            break
+          default: // 기타
+            cocktail.baseIdx = 8
+            break
           }
           await Cocktail.save(cocktail)
         }
@@ -115,8 +115,8 @@ export class DBScriptController {
             const tagIdx = (await Tag.find({ where: { name: element } }))[0].idx
             if (cocktailIdx !== 0 && tagIdx !== 0) {
               const cocktailHasTag = new CocktailHasTag()
-              cocktailHasTag.cocktail_idx = cocktailIdx
-              cocktailHasTag.tag_idx = tagIdx
+              cocktailHasTag.cocktailIdx = cocktailIdx
+              cocktailHasTag.tagIdx = tagIdx
               await CocktailHasTag.save(cocktailHasTag)
             }
           }
@@ -180,8 +180,8 @@ export class DBScriptController {
 
             if (cocktailIdx !== 0 && flavorIdx !== 0) {
               const cocktailHasFlavor = new CocktailHasFlavor()
-              cocktailHasFlavor.cocktail_idx = cocktailIdx
-              cocktailHasFlavor.flavor_idx = flavorIdx
+              cocktailHasFlavor.cocktailIdx = cocktailIdx
+              cocktailHasFlavor.flavorIdx = flavorIdx
               await CocktailHasFlavor.save(cocktailHasFlavor)
             }
           }

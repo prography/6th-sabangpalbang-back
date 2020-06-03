@@ -19,10 +19,20 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "semi": ["error", "never"],
+    "semi": [
+      "error",
+      "never"
+    ],
     "spaced-comment": "error",
-    "object-curly-spacing": ["error", "always"],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
     "new-cap": "off",
-    "require-jsdoc": "off"
+    "require-jsdoc": "off",
+    "indent": [
+      "error",
+      2
+    ]
   }
 }

@@ -3,18 +3,15 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany
-} from 'typeorm';
-import { Cocktail } from './Cocktail';
+} from 'typeorm'
 
 @Entity()
-export class Base extends BaseEntity { 
-
+export class Base extends BaseEntity {
     @PrimaryGeneratedColumn()
     idx: number;
 
     @Column()
-    img_url: string;
+    imgUrl: string;
 
     @Column()
     name: string;
@@ -25,10 +22,9 @@ export class Base extends BaseEntity {
     @Column()
     description: string;
 
-    // @OneToMany(
-    //   (type) => Cocktail,
-    //   (cocktail) => cocktail.base
-    // )
-    // cocktails!: Cocktail[];
-
+  // @OneToMany(
+  //   (type) => Cocktail,
+  //   (cocktail) => cocktail.base
+  // )
+  // cocktails!: Cocktail[];
 }

@@ -1,8 +1,7 @@
-import {Entity, BaseEntity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 @Entity()
-export class Flavor extends BaseEntity { 
-
+export class Flavor extends BaseEntity {
     @PrimaryGeneratedColumn()
     idx: number;
 
@@ -11,6 +10,4 @@ export class Flavor extends BaseEntity {
 
     @Column()
     description: string;
-
-
 }
