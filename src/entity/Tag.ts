@@ -14,7 +14,7 @@ export class Tag extends BaseEntity {
 
   static async saveData(tagData: TagData) {
     const tag = new Tag()
-    tag.name = tagData.name
+    Object.assign(tag, { ...tagData })
     await Tag.save(tag)
   }
 

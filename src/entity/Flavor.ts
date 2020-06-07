@@ -1,5 +1,10 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
+export class FlavorData {
+  name: string
+  description: string
+}
+
 @Entity()
 export class Flavor extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -11,10 +16,9 @@ export class Flavor extends BaseEntity {
     @Column()
     description: string;
 
-    static async saveData(name: string, description: string) {
+    static async saveData(data: FlavorData) {
       const flavor = new Flavor()
-      flavor.name = name
-      flavor.description = description
+      Object.assign(flavor, { ...data })
       await Flavor.save(flavor)
     }
 

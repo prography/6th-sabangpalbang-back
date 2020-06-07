@@ -6,8 +6,8 @@ import {
 const csvManager = require('../../module/csvManager')
 import { Cocktail, CocktailData } from '../entity/Cocktail'
 import { Tag, TagData } from '../entity/Tag'
-import { Flavor } from '../entity/Flavor'
-import { AbvClassification } from '../entity/AbvClassification'
+import { Flavor, FlavorData } from '../entity/Flavor'
+import { AbvClassification, AbvClassificationData } from '../entity/AbvClassification'
 import { Base, BaseData } from '../entity/Base'
 
 const NON_BASE_TEXT = '없음'
@@ -86,11 +86,17 @@ export class DBScriptController {
     // TODO: desc 정하기
     const abvDesc = ['엥', '맥주~', '청하', '참이슬', '말리부', '리큐르', '예거', '앱솔루트', '오우..']
     for (let i = 0; i <= 40; i += 5) {
+      const abvClassificationData: AbvClassificationData = {
+        minAbv: i,
+        maxAbv: i + 4,
+        description: abvDesc[i / 5],
+      }
       if (i === 40) {
-        await AbvClassification.saveData(i, 100, abvDesc[i / 5])
+        abvClassificationData.maxAbv = 100
+        await AbvClassification.saveData(abvClassificationData)
         continue
       }
-      await AbvClassification.saveData(i, i + 4, abvDesc[i / 5])
+      await AbvClassification.saveData(abvClassificationData)
     }
   }
 
@@ -193,7 +199,13 @@ export class DBScriptController {
 
       for (const flavorName of flavorData) {
         const isAlreadyFlavorData = await Flavor.findByName(flavorName)
-        if (!isAlreadyFlavorData) await Flavor.saveData(flavorName, '향 설명')
+        if (!isAlreadyFlavorData) {
+          const flavorData: FlavorData = {
+            name: flavorName,
+            description: '향 설명',
+          }
+          await Flavor.saveData(flavorData)
+        }
       }
     } catch (err) {
       console.log(err)

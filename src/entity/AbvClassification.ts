@@ -5,6 +5,12 @@ import {
   Column, LessThanOrEqual, MoreThanOrEqual,
 } from 'typeorm'
 
+export class AbvClassificationData {
+  minAbv: number
+  maxAbv: number;
+  description: string;
+}
+
 @Entity()
 export class AbvClassification extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -19,11 +25,9 @@ export class AbvClassification extends BaseEntity {
   @Column()
   description: string;
 
-  static async saveData(minAbv: number, maxAbv: number, description: string) {
+  static async saveData(data: AbvClassificationData) {
     const abvClassification = new AbvClassification()
-    abvClassification.minAbv = minAbv
-    abvClassification.maxAbv = maxAbv
-    abvClassification.description = description
+    Object.assign(abvClassification, { ...data })
     await AbvClassification.save(abvClassification)
   }
 

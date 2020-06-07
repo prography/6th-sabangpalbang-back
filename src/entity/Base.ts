@@ -39,12 +39,7 @@ export class Base extends BaseEntity {
 
   static async saveData(baseData: BaseData) {
     const base = new Base()
-    base.imgUrl = baseData.imgUrl
-    base.name = baseData.name
-    base.abv = baseData.abv
-    base.description = baseData.description
-    base.textColor = baseData.textColor
-    base.backgroundColor = baseData.backgroundColor
+    Object.assign(base, { ...baseData })
     await Base.save(base)
   }
 
