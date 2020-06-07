@@ -1,29 +1,24 @@
-import {
-  JsonController,
-  Get,
-} from 'routing-controllers'
+import { Base, BaseData } from './entity/Base'
+import { Cocktail, CocktailData } from './entity/Cocktail'
+import { AbvClassification, AbvClassificationData } from './entity/AbvClassification'
+import { Tag, TagData } from './entity/Tag'
+import { Flavor, FlavorData } from './entity/Flavor'
+import { createConnection } from 'typeorm'
 
-const csvManager = require('../../module/csvManager')
-import { Cocktail, CocktailData } from '../entity/Cocktail'
-import { Tag, TagData } from '../entity/Tag'
-import { Flavor, FlavorData } from '../entity/Flavor'
-import { AbvClassification, AbvClassificationData } from '../entity/AbvClassification'
-import { Base, BaseData } from '../entity/Base'
+createConnection().then(async (connection) => {
+  const csvManager = require('../module/csvManager')
 
-const NON_BASE_TEXT = '없음'
-const ANOTHER_BASE_TEXT = '기타'
+  const NON_BASE_TEXT = '없음'
+  const ANOTHER_BASE_TEXT = '기타'
 
-@JsonController('/init')
-export class DBScriptController {
-  @Get('/cocktails')
-  public async cocktails() {
-    await this.insertAbvClassification()
-    await this.insertBase()
-    await this.insertTagData()
-    await this.insertFlavors()
-    const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
-    const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
+  async function initData() {
     try {
+      await insertAbvClassification()
+      await insertBase()
+      await insertTagData()
+      await insertFlavors()
+      const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
+      const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
       const cocktailArr = await csvManager.read('cocktailData.csv')
       for (const element of cocktailArr) {
         const cocktailName = await Cocktail.findOneByName(element.name)
@@ -79,10 +74,10 @@ export class DBScriptController {
     } catch (err) {
       console.log(err)
     }
-    return 'cocktail T DBScript complete'
+    console.log('cocktail T DBScript complete')
   }
 
-  async insertAbvClassification() {
+  async function insertAbvClassification() {
     // TODO: desc 정하기
     const abvDesc = ['엥', '맥주~', '청하', '참이슬', '말리부', '리큐르', '예거', '앱솔루트', '오우..']
     for (let i = 0; i <= 40; i += 5) {
@@ -100,7 +95,7 @@ export class DBScriptController {
     }
   }
 
-  async insertBase() {
+  async function insertBase() {
     const baseNameList = ['없음', '데킬라', '럼', '진', '리큐어', '보드카', '브랜디', '기타']
     const baseImgList = [
       'https://user-images.githubusercontent.com/49062985/83237242-cd20c300-a1cf-11ea-9f36-a3b52345d9bc.jpg',
@@ -147,9 +142,7 @@ export class DBScriptController {
     }
   }
 
-  // Tag T
-  @Get('/tags')
-  public async insertTagData() {
+  async function insertTagData() {
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       const tagData: Array<string> = []
@@ -182,8 +175,7 @@ export class DBScriptController {
   }
 
   // Flavor T
-  @Get('/flavors')
-  public async insertFlavors() {
+  async function insertFlavors() {
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       const flavorData = []
@@ -212,4 +204,7 @@ export class DBScriptController {
     }
     return 'Flavor T DBScript complete'
   }
-}
+
+  await initData()
+  process.exit(0)
+}).catch((error) => console.log(error))
