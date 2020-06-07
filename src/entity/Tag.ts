@@ -2,6 +2,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 export class TagData {
   name: string
+  textColor: string
 }
 
 @Entity()
@@ -11,6 +12,9 @@ export class Tag extends BaseEntity {
 
   @Column()
   name: string;
+
+  @Column()
+  textColor: string;
 
   static async saveData(tagData: TagData) {
     const tag = new Tag()
