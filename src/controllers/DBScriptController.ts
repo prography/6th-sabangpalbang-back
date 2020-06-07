@@ -4,7 +4,7 @@ import {
 } from 'routing-controllers'
 
 const csvManager = require('../../module/csvManager')
-import { Cocktail } from '../entity/Cocktail'
+import { Cocktail, CocktailData } from '../entity/Cocktail'
 import { Tag, TagData } from '../entity/Tag'
 import { Flavor } from '../entity/Flavor'
 import { AbvClassification } from '../entity/AbvClassification'
@@ -28,27 +28,20 @@ export class DBScriptController {
       for (const element of cocktailArr) {
         const cocktailName = await Cocktail.findOneByName(element.name)
         if (!cocktailName) { // DB에 칵테일 중복값 없으면
-          const cocktail = new Cocktail()
-          // 기초 정보 삽입
-          cocktail.imgUrl = element.img_url
-          cocktail.name = element.name
-          cocktail.ingredients = element.ingredients
-          cocktail.abv = element.abv
-          cocktail.description = element.description
-          cocktail.nonAbv = element.nonAbv === 1
           // 도수 분류 정보
-          const abvClassification = await AbvClassification.findDataForCocktail(element.abv)
-          cocktail.abvClassification = abvClassification
+          const abvClassification =
+            await AbvClassification.findDataForCocktail(element.abv)
           // 베이스 정보
+          let base
           if (element.base === NON_BASE_TEXT) {
-            cocktail.base = nonBase
+            base = nonBase
           } else {
-            const base = await Base.findDataForCocktail(element.base)
+            const baseData = await Base.findDataForCocktail(element.base)
             // 베이스가 검색되지 않으면 기타
-            if (!base) {
-              cocktail.base = anotherBase
+            if (!baseData) {
+              base = anotherBase
             } else {
-              cocktail.base = base
+              base = baseData
             }
           }
           // 태그 정보
@@ -59,7 +52,6 @@ export class DBScriptController {
             const tag = await Tag.findByName(tagName)
             tagList.push(tag)
           }
-          cocktail.tags = tagList
           // 맛 정보
           const flavorList = []
           const flavorNameArr = element.flavor.split(', ')
@@ -68,8 +60,20 @@ export class DBScriptController {
             const flavor = await Flavor.findByName(flavorName)
             flavorList.push(flavor)
           }
-          cocktail.flavors = flavorList
-          await Cocktail.save(cocktail)
+          const cocktailData: CocktailData = {
+            name: element.name,
+            imgUrl: element.img_url,
+            ingredients: element.ingredients,
+            abv: element.abv,
+            description: element.description,
+            nonAbv: element.nonAbv === 1,
+            abvClassification,
+            base,
+            flavors: flavorList,
+            tags: tagList,
+            backgroundImgUrl: element.img_url,
+          }
+          await Cocktail.saveData(cocktailData)
         }
       }
     } catch (err) {
