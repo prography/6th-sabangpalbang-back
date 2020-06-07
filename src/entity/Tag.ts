@@ -1,5 +1,9 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
+export class TagData {
+  name: string
+}
+
 @Entity()
 export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -8,9 +12,9 @@ export class Tag extends BaseEntity {
   @Column()
   name: string;
 
-  static async saveData(name: string) {
+  static async saveData(tagData: TagData) {
     const tag = new Tag()
-    tag.name = name
+    tag.name = tagData.name
     await Tag.save(tag)
   }
 
