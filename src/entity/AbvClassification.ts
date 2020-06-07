@@ -10,10 +10,10 @@ export class AbvClassification extends BaseEntity {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @Column()
+  @Column({ name: 'min_abv' })
   minAbv: number
 
-  @Column()
+  @Column({ name: 'max_abv' })
   maxAbv: number;
 
   @Column()

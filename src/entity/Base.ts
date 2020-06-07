@@ -19,7 +19,7 @@ export class Base extends BaseEntity {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @Column()
+  @Column({ name: 'img_url' })
   imgUrl: string;
 
   @Column()
@@ -31,10 +31,10 @@ export class Base extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ name: 'text_color' })
   textColor: string;
 
-  @Column()
+  @Column({ name: 'background_color' })
   backgroundColor: string;
 
   static async saveData(baseData: BaseData) {

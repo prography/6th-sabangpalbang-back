@@ -32,7 +32,7 @@ export class Cocktail extends BaseEntity {
   @Column({ name: 'img_url' })
   imgUrl: string;
 
-  @Column()
+  @Column({ name: 'background_img_url' })
   backgroundImgUrl: string;
 
   @Column()
@@ -44,7 +44,7 @@ export class Cocktail extends BaseEntity {
   @Column()
   abv: number;
 
-  @Column()
+  @Column({ name: 'non_abv' })
   nonAbv: boolean;
 
   @Column()
@@ -63,7 +63,7 @@ export class Cocktail extends BaseEntity {
   base: Base;
 
   @ManyToOne(() => AbvClassification)
-  @JoinColumn()
+  @JoinColumn({ name: 'abv_classification' })
   abvClassification: AbvClassification;
 
   static async saveData(data: CocktailData) {
