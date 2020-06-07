@@ -1,54 +1,42 @@
-import {
-  JsonController,
-  Get,
-} from 'routing-controllers'
+import { Base, BaseData } from './entity/Base'
+import { Cocktail, CocktailData } from './entity/Cocktail'
+import { AbvClassification, AbvClassificationData } from './entity/AbvClassification'
+import { Tag, TagData } from './entity/Tag'
+import { Flavor, FlavorData } from './entity/Flavor'
+import { createConnection } from 'typeorm'
 
-const csvManager = require('../../module/csvManager')
-import { Cocktail } from '../entity/Cocktail'
-import { Tag, TagData } from '../entity/Tag'
-import { Flavor } from '../entity/Flavor'
-import { AbvClassification } from '../entity/AbvClassification'
-import { Base, BaseData } from '../entity/Base'
+createConnection().then(async (connection) => {
+  const csvManager = require('../module/csvManager')
 
-const NON_BASE_TEXT = '없음'
-const ANOTHER_BASE_TEXT = '기타'
+  const NON_BASE_TEXT = '없음'
+  const ANOTHER_BASE_TEXT = '기타'
 
-@JsonController('/init')
-export class DBScriptController {
-  @Get('/cocktails')
-  public async cocktails() {
-    await this.insertAbvClassification()
-    await this.insertBase()
-    await this.insertTagData()
-    await this.insertFlavors()
-    const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
-    const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
+  async function initData() {
     try {
+      await insertAbvClassification()
+      await insertBase()
+      await insertTagData()
+      await insertFlavors()
+      const nonBase = await Base.findDataForCocktail(NON_BASE_TEXT)
+      const anotherBase = await Base.findDataForCocktail(ANOTHER_BASE_TEXT)
       const cocktailArr = await csvManager.read('cocktailData.csv')
       for (const element of cocktailArr) {
         const cocktailName = await Cocktail.findOneByName(element.name)
         if (!cocktailName) { // DB에 칵테일 중복값 없으면
-          const cocktail = new Cocktail()
-          // 기초 정보 삽입
-          cocktail.imgUrl = element.img_url
-          cocktail.name = element.name
-          cocktail.ingredients = element.ingredients
-          cocktail.abv = element.abv
-          cocktail.description = element.description
-          cocktail.nonAbv = element.nonAbv === 1
           // 도수 분류 정보
-          const abvClassification = await AbvClassification.findDataForCocktail(element.abv)
-          cocktail.abvClassification = abvClassification
+          const abvClassification =
+            await AbvClassification.findDataForCocktail(element.abv)
           // 베이스 정보
+          let base
           if (element.base === NON_BASE_TEXT) {
-            cocktail.base = nonBase
+            base = nonBase
           } else {
-            const base = await Base.findDataForCocktail(element.base)
+            const baseData = await Base.findDataForCocktail(element.base)
             // 베이스가 검색되지 않으면 기타
-            if (!base) {
-              cocktail.base = anotherBase
+            if (!baseData) {
+              base = anotherBase
             } else {
-              cocktail.base = base
+              base = baseData
             }
           }
           // 태그 정보
@@ -59,7 +47,6 @@ export class DBScriptController {
             const tag = await Tag.findByName(tagName)
             tagList.push(tag)
           }
-          cocktail.tags = tagList
           // 맛 정보
           const flavorList = []
           const flavorNameArr = element.flavor.split(', ')
@@ -68,29 +55,50 @@ export class DBScriptController {
             const flavor = await Flavor.findByName(flavorName)
             flavorList.push(flavor)
           }
-          cocktail.flavors = flavorList
-          await Cocktail.save(cocktail)
+          const cocktailData: CocktailData = {
+            name: element.name,
+            imgUrl: element.img_url,
+            ingredients: element.ingredients,
+            abv: element.abv,
+            description: element.description,
+            nonAbv: element.nonAbv === 1,
+            abvClassification,
+            base,
+            flavors: flavorList,
+            tags: tagList,
+            backgroundImgUrl: element.img_url,
+          }
+          await Cocktail.saveData(cocktailData)
         }
       }
     } catch (err) {
       console.log(err)
     }
-    return 'cocktail T DBScript complete'
+    console.log('cocktail T DBScript complete')
   }
 
-  async insertAbvClassification() {
+  async function insertAbvClassification() {
+    console.log('--- START INIT ABV CLASSIFICATION ---')
     // TODO: desc 정하기
     const abvDesc = ['엥', '맥주~', '청하', '참이슬', '말리부', '리큐르', '예거', '앱솔루트', '오우..']
     for (let i = 0; i <= 40; i += 5) {
+      const abvClassificationData: AbvClassificationData = {
+        minAbv: i,
+        maxAbv: i + 4,
+        description: abvDesc[i / 5],
+      }
       if (i === 40) {
-        await AbvClassification.saveData(i, 100, abvDesc[i / 5])
+        abvClassificationData.maxAbv = 100
+        await AbvClassification.saveData(abvClassificationData)
         continue
       }
-      await AbvClassification.saveData(i, i + 4, abvDesc[i / 5])
+      await AbvClassification.saveData(abvClassificationData)
     }
+    console.log('--- COMPLETE INIT ABV CLASSIFICATION ---')
   }
 
-  async insertBase() {
+  async function insertBase() {
+    console.log('--- START INIT BASE ---')
     const baseNameList = ['없음', '데킬라', '럼', '진', '리큐어', '보드카', '브랜디', '기타']
     const baseImgList = [
       'https://user-images.githubusercontent.com/49062985/83237242-cd20c300-a1cf-11ea-9f36-a3b52345d9bc.jpg',
@@ -135,11 +143,11 @@ export class DBScriptController {
       }
       await Base.saveData(baseData)
     }
+    console.log('--- COMPLETE INIT BASE ---')
   }
 
-  // Tag T
-  @Get('/tags')
-  public async insertTagData() {
+  async function insertTagData() {
+    console.log('--- START INIT TAG ---')
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       const tagData: Array<string> = []
@@ -156,24 +164,19 @@ export class DBScriptController {
       for (const tagName of tagData) {
         const isAlreadyTagData = await Tag.findByName(tagName)
         if (!isAlreadyTagData) {
-          const tagData: TagData = { name: tagName }
+          const tagData: TagData = { name: tagName, textColor: '#ffffff' }
           await Tag.saveData(tagData)
         }
       }
     } catch (err) {
-      return {
-        isSuccessful: false,
-        errorMsg: err,
-      }
+      console.log(err)
     }
-    return {
-      isSuccessful: true,
-    }
+    console.log('--- COMPLETE INIT TAG ---')
   }
 
   // Flavor T
-  @Get('/flavors')
-  public async insertFlavors() {
+  async function insertFlavors() {
+    console.log('--- START INIT FLAVORS ---')
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       const flavorData = []
@@ -189,11 +192,20 @@ export class DBScriptController {
 
       for (const flavorName of flavorData) {
         const isAlreadyFlavorData = await Flavor.findByName(flavorName)
-        if (!isAlreadyFlavorData) await Flavor.saveData(flavorName, '향 설명')
+        if (!isAlreadyFlavorData) {
+          const flavorData: FlavorData = {
+            name: flavorName,
+            description: '향 설명',
+          }
+          await Flavor.saveData(flavorData)
+        }
       }
     } catch (err) {
       console.log(err)
     }
-    return 'Flavor T DBScript complete'
+    console.log('--- COMPLETE INIT FLAVORS ---')
   }
-}
+
+  await initData()
+  process.exit(0)
+}).catch((error) => console.log(error))

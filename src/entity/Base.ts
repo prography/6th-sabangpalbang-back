@@ -19,7 +19,7 @@ export class Base extends BaseEntity {
   @PrimaryGeneratedColumn()
   idx: number;
 
-  @Column()
+  @Column({ name: 'img_url' })
   imgUrl: string;
 
   @Column()
@@ -31,20 +31,15 @@ export class Base extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ name: 'text_color' })
   textColor: string;
 
-  @Column()
+  @Column({ name: 'background_color' })
   backgroundColor: string;
 
   static async saveData(baseData: BaseData) {
     const base = new Base()
-    base.imgUrl = baseData.imgUrl
-    base.name = baseData.name
-    base.abv = baseData.abv
-    base.description = baseData.description
-    base.textColor = baseData.textColor
-    base.backgroundColor = baseData.backgroundColor
+    Object.assign(base, { ...baseData })
     await Base.save(base)
   }
 
