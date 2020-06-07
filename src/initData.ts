@@ -78,6 +78,7 @@ createConnection().then(async (connection) => {
   }
 
   async function insertAbvClassification() {
+    console.log('--- START INIT ABV CLASSIFICATION ---')
     // TODO: desc 정하기
     const abvDesc = ['엥', '맥주~', '청하', '참이슬', '말리부', '리큐르', '예거', '앱솔루트', '오우..']
     for (let i = 0; i <= 40; i += 5) {
@@ -93,9 +94,11 @@ createConnection().then(async (connection) => {
       }
       await AbvClassification.saveData(abvClassificationData)
     }
+    console.log('--- COMPLETE INIT ABV CLASSIFICATION ---')
   }
 
   async function insertBase() {
+    console.log('--- START INIT BASE ---')
     const baseNameList = ['없음', '데킬라', '럼', '진', '리큐어', '보드카', '브랜디', '기타']
     const baseImgList = [
       'https://user-images.githubusercontent.com/49062985/83237242-cd20c300-a1cf-11ea-9f36-a3b52345d9bc.jpg',
@@ -140,9 +143,11 @@ createConnection().then(async (connection) => {
       }
       await Base.saveData(baseData)
     }
+    console.log('--- COMPLETE INIT BASE ---')
   }
 
   async function insertTagData() {
+    console.log('--- START INIT TAG ---')
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       const tagData: Array<string> = []
@@ -164,18 +169,14 @@ createConnection().then(async (connection) => {
         }
       }
     } catch (err) {
-      return {
-        isSuccessful: false,
-        errorMsg: err,
-      }
+      console.log(err)
     }
-    return {
-      isSuccessful: true,
-    }
+    console.log('--- COMPLETE INIT TAG ---')
   }
 
   // Flavor T
   async function insertFlavors() {
+    console.log('--- START INIT FLAVORS ---')
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
       const flavorData = []
@@ -202,7 +203,7 @@ createConnection().then(async (connection) => {
     } catch (err) {
       console.log(err)
     }
-    return 'Flavor T DBScript complete'
+    console.log('--- COMPLETE INIT FLAVORS ---')
   }
 
   await initData()
