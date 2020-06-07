@@ -6,7 +6,7 @@
   "author": "KimGenius & devAon",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --watch src --exec 'ts-node' src/app.ts",
+    "start": "nodemon --watch src --exec ts-node src/app.ts",
     "build": "webpack --config webpack.config.js",
     "build:prod": "NODE_ENV=production webpack --config webpack.config.js",
     "deploy:prod": "yarn run build:prod && sh deploy-prod.sh"
