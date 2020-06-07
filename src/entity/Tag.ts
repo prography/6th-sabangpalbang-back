@@ -21,5 +21,9 @@ export class Tag extends BaseEntity {
   static async findByName(name: string) {
     return await Tag.findOne({ where: { name } })
   }
+
+  static async findAll() {
+    return await Tag.find()
+  }
 }
 
