@@ -5,6 +5,15 @@ import {
   Column,
 } from 'typeorm'
 
+export class BaseData {
+  imgUrl: string;
+  name: string;
+  abv: number;
+  description: string;
+  textColor: string;
+  backgroundColor: string;
+}
+
 @Entity()
 export class Base extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -22,12 +31,20 @@ export class Base extends BaseEntity {
   @Column()
   description: string;
 
-  static async saveData(imgUrl: string, name: string, abv: number, description: string) {
+  @Column()
+  textColor: string;
+
+  @Column()
+  backgroundColor: string;
+
+  static async saveData(baseData: BaseData) {
     const base = new Base()
-    base.imgUrl = imgUrl
-    base.name = name
-    base.abv = abv
-    base.description = description
+    base.imgUrl = baseData.imgUrl
+    base.name = baseData.name
+    base.abv = baseData.abv
+    base.description = baseData.description
+    base.textColor = baseData.textColor
+    base.backgroundColor = baseData.backgroundColor
     await Base.save(base)
   }
 

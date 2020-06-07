@@ -5,10 +5,10 @@ import {
 
 const csvManager = require('../../module/csvManager')
 import { Cocktail } from '../entity/Cocktail'
-import { Tag } from '../entity/Tag'
+import { Tag, TagData } from '../entity/Tag'
 import { Flavor } from '../entity/Flavor'
 import { AbvClassification } from '../entity/AbvClassification'
-import { Base } from '../entity/Base'
+import { Base, BaseData } from '../entity/Base'
 
 const NON_BASE_TEXT = '없음'
 const ANOTHER_BASE_TEXT = '기타'
@@ -102,10 +102,38 @@ export class DBScriptController {
       'https://user-images.githubusercontent.com/49062985/83226713-90e46700-a1bd-11ea-91b0-9735fad7e361.jpg',
       'https://user-images.githubusercontent.com/49062985/83226826-ca1cd700-a1bd-11ea-859c-c1e2362111b0.jpg',
     ]
-    let i = 0
+    const baseTextColorList = [
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+    ]
+    const baseBackgroundColorList = [
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+    ]
+    const i = 0
     for (const baseName of baseNameList) {
       // TODO: 도수, 설명 추가
-      await Base.saveData(baseImgList[i++], baseName, 40, '설명~')
+      const baseData: BaseData = {
+        imgUrl: baseImgList[i],
+        name: baseName,
+        abv: 40,
+        description: '',
+        textColor: baseTextColorList[i],
+        backgroundColor: baseBackgroundColorList[i],
+      }
+      await Base.saveData(baseData)
     }
   }
 
@@ -114,7 +142,7 @@ export class DBScriptController {
   public async insertTagData() {
     try {
       const cocktailArr = await csvManager.read('cocktailData.csv')
-      const tagData = []
+      const tagData: Array<string> = []
       for (const element of cocktailArr) {
         const tagArr = element.tag.split(', ')
         for (let i = 0; i < tagArr.length; i++) {
@@ -127,7 +155,10 @@ export class DBScriptController {
 
       for (const tagName of tagData) {
         const isAlreadyTagData = await Tag.findByName(tagName)
-        if (!isAlreadyTagData) await Tag.saveData(tagName)
+        if (!isAlreadyTagData) {
+          const tagData: TagData = { name: tagName }
+          await Tag.saveData(tagData)
+        }
       }
     } catch (err) {
       return {

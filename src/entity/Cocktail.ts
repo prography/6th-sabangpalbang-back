@@ -61,6 +61,8 @@ export class Cocktail extends BaseEntity {
 
   // TODO: 검색으로 개선
   static async search() {
-    return await Cocktail.find({ relations: ['tags', 'flavors', 'base', 'abvClassification'] })
+    return await Cocktail.find({
+      relations: ['tags', 'flavors', 'base', 'abvClassification'],
+    })
   }
 }
