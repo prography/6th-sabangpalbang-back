@@ -25,4 +25,8 @@ export class Flavor extends BaseEntity {
     static async findByName(name: string) {
       return await Flavor.findOne({ where: { name } })
     }
+
+    static async findAll() {
+      return await Flavor.find()
+    }
 }
