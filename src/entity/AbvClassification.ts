@@ -39,4 +39,8 @@ export class AbvClassification extends BaseEntity {
       },
     })
   }
+
+  static async findAll() {
+    return await AbvClassification.find()
+  }
 }
