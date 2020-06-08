@@ -48,4 +48,8 @@ export class Base extends BaseEntity {
       where: { name },
     })
   }
+
+  static async findAll() {
+    return await Base.find()
+  }
 }
