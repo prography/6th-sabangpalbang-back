@@ -8,5 +8,4 @@ export class BaseController {
     const bases = await Base.findAll()
     return { bases }
   }
-
 }
