@@ -164,7 +164,7 @@ createConnection().then(async (connection) => {
       for (const tagName of tagData) {
         const isAlreadyTagData = await Tag.findByName(tagName)
         if (!isAlreadyTagData) {
-          const tagData: TagData = { name: tagName, textColor: '#ffffff' }
+          const tagData: TagData = { name: tagName }
           await Tag.saveData(tagData)
         }
       }
