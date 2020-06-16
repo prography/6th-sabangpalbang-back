@@ -20,6 +20,15 @@ export class CocktailController {
   ) {
     const where: any = {}
     if (name) where.name = Like(`%${name}%`)
+    if (abvMin !== undefined && abvMax !== undefined) {
+      where.abv = Between(abvMin, abvMax)
+    }
+    if (abvMin !== undefined && abvMax == undefined) {
+      where.abv = MoreThanOrEqual(abvMin)
+    }
+    if (abvMin == undefined && abvMax !== undefined) {
+      where.abv = LessThanOrEqual(abvMax)
+    }
     const cocktails = await this.cocktailRepository.find({
       where,
       relations: ['tags', 'flavors', 'base', 'abvClassification'],
