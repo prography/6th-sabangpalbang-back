@@ -10,6 +10,7 @@
     "start-prod": "NODE_ENV=production nodemon --watch src --exec 'ts-node' src/app.ts",
     "build": "webpack --config webpack.config.js",
     "init": "ts-node src/initData.ts",
+    "init-prod": "NODE_ENV=production ts-node src/initData.ts",
     "deploy:prod": "sh deploy-prod.sh"
   },
   "dependencies": {
