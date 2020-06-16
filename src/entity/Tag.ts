@@ -2,7 +2,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 export class TagData {
   name: string
-  textColor: string
+  textColor?: string
 }
 
 @Entity()
@@ -13,7 +13,7 @@ export class Tag extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true, default: '#ffffff' })
   textColor: string;
 
   static async saveData(tagData: TagData) {
