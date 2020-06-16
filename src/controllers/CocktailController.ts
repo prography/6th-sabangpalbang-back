@@ -29,6 +29,7 @@ export class CocktailController {
     if (abvMin == undefined && abvMax !== undefined) {
       where.abv = LessThanOrEqual(abvMax)
     }
+    // TODO: base랑 tag 검색하기
     const cocktails = await this.cocktailRepository.find({
       where,
       relations: ['tags', 'flavors', 'base', 'abvClassification'],
