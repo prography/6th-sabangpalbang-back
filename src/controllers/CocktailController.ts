@@ -47,6 +47,7 @@ export class CocktailController {
     return { cocktail }
   }
 
+  // TODO: 아래 route랑 중복되서 나오는 에러 해결 필요
   @Get('/random')
   async getCocktailRandom() {
     return await this.cocktailRepository
