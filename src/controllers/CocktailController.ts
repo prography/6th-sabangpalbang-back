@@ -57,7 +57,9 @@ export class CocktailController {
 
   @Get('/:cocktailIdx')
   async getCocktailDetail(@Param('cocktailIdx') cocktailIdx: string) {
-    const cocktail = await Cocktail.findOneByIdx(cocktailIdx)
-    return cocktail
+    return await this.cocktailRepository
+      .createQueryBuilder('cocktail')
+      .where('cocktail.idx = :cocktailIdx', { cocktailIdx })
+      .getOne()
   }
 }
