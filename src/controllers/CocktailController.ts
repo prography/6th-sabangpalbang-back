@@ -1,15 +1,6 @@
 import { Get, JsonController, Param, QueryParam } from 'routing-controllers'
 import { Cocktail } from '../entity/Cocktail'
-import {
-  Between,
-  createQueryBuilder,
-  getConnectionManager,
-  LessThanOrEqual,
-  Like,
-  MoreThanOrEqual,
-  Repository,
-} from 'typeorm'
-import { Tag } from '../entity/Tag'
+import { Between, getConnectionManager, LessThanOrEqual, Like, MoreThanOrEqual, Repository } from 'typeorm'
 
 @JsonController('/cocktails')
 export class CocktailController {
@@ -54,6 +45,14 @@ export class CocktailController {
       .getMany()
     // console.log(cocktail)
     return { cocktail }
+  }
+
+  @Get('/random')
+  async getCocktailRandom() {
+    return await this.cocktailRepository
+      .createQueryBuilder('cocktail')
+      .orderBy('RAND()')
+      .getOne()
   }
 
   @Get('/:cocktailIdx')
