@@ -30,21 +30,21 @@ export class CocktailController {
       where.abv = LessThanOrEqual(abvMax)
     }
     // TODO: base랑 tag 검색하기
-    // const cocktails = await this.cocktailRepository.find({
-    //   where,
-    //   relations: ['tags', 'flavors', 'base', 'abvClassification'],
-    // })
+    const cocktails = await this.cocktailRepository.find({
+      where,
+      relations: ['tags', 'flavors', 'base', 'abvClassification'],
+    })
     // TODO: 기획적으로 base tag 검색 OR로 할지 AND로 할지 정하기
-    const cocktail = await this.cocktailRepository
-      .createQueryBuilder('cocktail')
-      .innerJoinAndSelect('cocktail.tags', 'tag', 'tag.idx = :tagIdx', { tagIdx: 1 })
-      // .where('cocktail.name like :name', { name: '%' + name + '%' })
-      // .where('tags.idx = :userId OR holders IS NULL')
-      // .leftJoinAndSelect('cocktail.tags', 'tag', 'cocktail.tags = :tags', { tags: '1' })
-      // .leftJoinAndSelect('cocktail.flavors', 'flavor')
-      .getMany()
+    // const cocktail = await this.cocktailRepository
+    //   .createQueryBuilder('cocktail')
+    //   .innerJoinAndSelect('cocktail.tags', 'tag', 'tag.idx = :tagIdx', { tagIdx: 4 })
+    //   .where('cocktail.name like :name', { name: '%' + name + '%' })
+    // .where('tags.idx = :userId OR holders IS NULL')
+    // .leftJoinAndSelect('cocktail.tags', 'tag', 'cocktail.tags = :tags', { tags: '1' })
+    // .leftJoinAndSelect('cocktail.flavors', 'flavor')
+    // .getMany()
     // console.log(cocktail)
-    return { cocktail }
+    return { cocktails }
   }
 
   // TODO: 아래 route랑 중복되서 나오는 에러 해결 필요
