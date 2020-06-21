@@ -51,7 +51,17 @@ export class Cocktail extends BaseEntity {
   description: string;
 
   @ManyToMany(() => Tag)
-  @JoinTable()
+  @JoinTable({
+    name: 'cocktail_tag',
+    joinColumn: {
+      name: 'cocktail_idx',
+      referencedColumnName: 'idx',
+    },
+    inverseJoinColumn: {
+      name: 'tag_idx',
+      referencedColumnName: 'idx',
+    },
+  })
   tags: Tag[]
 
   @ManyToMany(() => Flavor)
@@ -74,12 +84,5 @@ export class Cocktail extends BaseEntity {
 
   static async findOneByName(name: string) {
     return await Cocktail.findOne({ where: { name } })
-  }
-
-  static async findOneByIdx(idx: string) {
-    return await Cocktail.findOne({
-      where: { idx },
-      relations: ['tags', 'flavors', 'base', 'abvClassification'],
-    })
   }
 }
