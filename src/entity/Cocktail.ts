@@ -9,6 +9,7 @@ import { Base } from './Base'
 import { Tag } from './Tag'
 import { Flavor } from './Flavor'
 import { Review } from './Review'
+import { Like } from './Like'
 
 export class CocktailData {
   imgUrl: string;
@@ -82,6 +83,12 @@ export class Cocktail extends BaseEntity {
     (review) => review.cocktail,
   )
   reviews: Review[];
+
+  @OneToMany(
+    (type) => Like,
+    (like) => like.cocktail,
+  )
+  likes: Like[];
 
   static async saveData(data: CocktailData) {
     const cocktail = new Cocktail()

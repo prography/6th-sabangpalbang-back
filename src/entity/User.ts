@@ -5,6 +5,7 @@ import {
   Column, CreateDateColumn, UpdateDateColumn, OneToMany,
 } from 'typeorm'
 import { Review } from './Review'
+import { Like } from './Like'
 
 export class UserData {
   name: string;
@@ -43,4 +44,10 @@ export class User extends BaseEntity {
     (review) => review.user,
   )
   reviews: Review[];
+
+  @OneToMany(
+    (type) => Like,
+    (like) => like.user,
+  )
+  likes: Like[];
 }
