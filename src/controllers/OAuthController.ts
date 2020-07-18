@@ -35,13 +35,13 @@ export class UserController {
       const saveData = await user.save()
       delete saveData.kakaoID
       return {
-        saveData,
+        ...saveData,
       }
     }
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
     return {
-      existUserData,
+      ...existUserData,
     }
   }
 }
