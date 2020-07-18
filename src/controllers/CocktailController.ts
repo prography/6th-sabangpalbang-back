@@ -1,6 +1,7 @@
 import { Get, JsonController, Param, QueryParam } from 'routing-controllers'
 import { Cocktail } from '../entity/Cocktail'
 import { Between, getConnectionManager, LessThanOrEqual, Like, MoreThanOrEqual, Repository } from 'typeorm'
+import { BadRequestError } from '../http-errors/BadRequestError'
 
 @JsonController('/cocktails')
 export class CocktailController {
@@ -15,9 +16,14 @@ export class CocktailController {
     @QueryParam('tag') tag: string,
     @QueryParam('base') base: string,
     @QueryParam('name') name: string,
+    @QueryParam('offset') offset: number,
+    @QueryParam('limit') limit: number,
     @QueryParam('abvMin') abvMin: number,
     @QueryParam('abvMax') abvMax: number,
   ) {
+    if (offset && !limit) {
+      throw new BadRequestError('offset 값은 limit 없이 사용할 수 없습니다.')
+    }
     const where: any = {}
     if (name) where.name = Like(`%${name}%`)
     if (abvMin !== undefined && abvMax !== undefined) {
@@ -29,21 +35,12 @@ export class CocktailController {
     if (abvMin == undefined && abvMax !== undefined) {
       where.abv = LessThanOrEqual(abvMax)
     }
-    // TODO: base랑 tag 검색하기
     const cocktails = await this.cocktailRepository.find({
       where,
       relations: ['tags', 'flavors', 'base', 'abvClassification'],
+      take: limit,
+      skip: offset,
     })
-    // TODO: 기획적으로 base tag 검색 OR로 할지 AND로 할지 정하기
-    // const cocktail = await this.cocktailRepository
-    //   .createQueryBuilder('cocktail')
-    //   .innerJoinAndSelect('cocktail.tags', 'tag', 'tag.idx = :tagIdx', { tagIdx: 4 })
-    //   .where('cocktail.name like :name', { name: '%' + name + '%' })
-    // .where('tags.idx = :userId OR holders IS NULL')
-    // .leftJoinAndSelect('cocktail.tags', 'tag', 'cocktail.tags = :tags', { tags: '1' })
-    // .leftJoinAndSelect('cocktail.flavors', 'flavor')
-    // .getMany()
-    // console.log(cocktail)
     return { cocktails }
   }
 
