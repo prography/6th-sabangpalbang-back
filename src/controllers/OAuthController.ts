@@ -49,6 +49,7 @@ export class UserController {
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
     const accessToken = generateAccessToken(existUserData)
+    // TODO: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client 해결
     res.cookie('userToken', accessToken, {
       expires,
       path: '/',
