@@ -1,16 +1,17 @@
 import { Get, JsonController, QueryParam } from 'routing-controllers'
 import axios from 'axios'
 import { User } from '../entity/User'
+import { generateAccessToken } from '../libs/token'
 
 @JsonController('/oauth')
 export class UserController {
   @Get('/redirect')
   async redirectController(@QueryParam('code') code: string) {
     const codeData = await axios.get(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`)
-    const accessToken = codeData.data.access_token
+    const kakaoAccessToken = codeData.data.access_token
     const kakaoUserData = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${kakaoAccessToken}`,
       },
     })
     const existUserData = await User.findOne({ where: { kakaoID: kakaoUserData.data.id } })
@@ -32,11 +33,17 @@ export class UserController {
       user.name = nickname
       user.profileURL = profileImage
       const saveData = await user.save()
-      console.log(saveData)
-      // TODO: token 발급
+      delete saveData.kakaoID
+      const accessToken = generateAccessToken(saveData)
+      return {
+        accessToken,
+      }
     }
     // 데이터가 있으면 로그인 진행
-    console.log(existUserData)
-    return kakaoUserData.data
+    delete existUserData.kakaoID
+    const accessToken = generateAccessToken(existUserData)
+    return {
+      accessToken,
+    }
   }
 }
