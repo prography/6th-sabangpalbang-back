@@ -1,4 +1,4 @@
-import { Get, JsonController, QueryParam, Redirect, Res } from 'routing-controllers'
+import { Get, JsonController, QueryParam, Res } from 'routing-controllers'
 import axios from 'axios'
 import { User } from '../entity/User'
 import { Response } from 'express'
@@ -7,7 +7,6 @@ import { generateAccessToken } from '../libs/token'
 @JsonController('/oauth')
 export class UserController {
   @Get('/redirect')
-  @Redirect(process.env.REDIRECT_URI)
   async redirectController(
     @Res() res: Response,
     @QueryParam('code') code: string,
@@ -44,7 +43,7 @@ export class UserController {
       res.cookie('userToken', accessToken, {
         expires,
         path: '/',
-      })
+      }).redirect(302, process.env.REDIRECT_URI)
       return
     }
     // 데이터가 있으면 로그인 진행
@@ -53,6 +52,6 @@ export class UserController {
     res.cookie('userToken', accessToken, {
       expires,
       path: '/',
-    })
+    }).redirect(302, process.env.REDIRECT_URI)
   }
 }
