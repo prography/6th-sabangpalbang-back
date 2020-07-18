@@ -13,8 +13,6 @@ export class CocktailController {
 
   @Get('/')
   async getCocktailList(
-    @QueryParam('tag') tag: string,
-    @QueryParam('base') base: string,
     @QueryParam('name') name: string,
     @QueryParam('offset') offset: number,
     @QueryParam('limit') limit: number,
@@ -54,13 +52,15 @@ export class CocktailController {
     return { cocktails }
   }
 
-  // TODO: 아래 route랑 중복되서 나오는 에러 해결 필요
   @Get('/random')
   async getCocktailRandom() {
-    return await this.cocktailRepository
-      .createQueryBuilder('cocktail')
-      .orderBy('RAND()')
-      .getOne()
+    const [cocktails, cocktailCount] = await this.cocktailRepository.findAndCount()
+    return await this.cocktailRepository.findOne({
+      where: {
+        idx: Math.floor(Math.random() * (cocktailCount - 1)) + 1,
+      },
+      relations: ['tags', 'flavors', 'base', 'abvClassification'],
+    })
   }
 
   @Get('/:cocktailIdx')
