@@ -35,8 +35,7 @@ export class UserAccessMiddleware implements ExpressMiddlewareInterface {
         message: '비정상적인 토큰입니다.',
       })
     }
-    request.headers['x-user-phone'] = jwtData.data.phone
-    request.headers['x-bigcar-token'] = accessToken
+    request.headers['x-user-idx'] = jwtData.data.idx
     next()
   }
 }
