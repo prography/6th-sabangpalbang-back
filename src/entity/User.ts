@@ -2,8 +2,9 @@ import {
   BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
-  Column, CreateDateColumn, UpdateDateColumn,
+  Column, CreateDateColumn, UpdateDateColumn, OneToMany,
 } from 'typeorm'
+import { Review } from './Review'
 
 export class UserData {
   name: string;
@@ -36,4 +37,10 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn({ name: 'updatedAt', type: 'datetime' })
   updatedAt: Date
+
+  @OneToMany(
+    (type) => Review,
+    (review) => review.user,
+  )
+  reviews: Review[];
 }
