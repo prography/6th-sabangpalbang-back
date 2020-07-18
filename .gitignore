@@ -9,3 +9,4 @@ dist/
 **/.DS_Store
 envs/.env.dev
 envs/.env.production
+yarn-error.log
