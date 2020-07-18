@@ -42,8 +42,9 @@ export class UserController {
       const accessToken = generateAccessToken(saveData)
       res.cookie('userToken', accessToken, {
         expires,
+        domain: process.env.REDIRECT_URI.split(':3000')[0],
         path: '/',
-      }).redirect(302, process.env.REDIRECT_URI)
+      }).redirect(302, `http://${process.env.REDIRECT_URI}`)
       return
     }
     // 데이터가 있으면 로그인 진행
@@ -52,7 +53,8 @@ export class UserController {
     // TODO: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client 해결
     res.cookie('userToken', accessToken, {
       expires,
+      domain: process.env.REDIRECT_URI.split(':3000')[0],
       path: '/',
-    }).redirect(302, process.env.REDIRECT_URI)
+    }).redirect(302, `http://${process.env.REDIRECT_URI}`)
   }
 }
