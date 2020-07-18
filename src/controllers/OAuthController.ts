@@ -1,13 +1,17 @@
-import { Get, JsonController, QueryParam, Redirect } from 'routing-controllers'
+import { Get, JsonController, QueryParam, Redirect, Res } from 'routing-controllers'
 import axios from 'axios'
 import { User } from '../entity/User'
+import { Response } from 'express'
 import { generateAccessToken } from '../libs/token'
 
 @JsonController('/oauth')
 export class UserController {
   @Get('/redirect')
   @Redirect(process.env.REDIRECT_URI)
-  async redirectController(@QueryParam('code') code: string) {
+  async redirectController(
+    @Res() res: Response,
+    @QueryParam('code') code: string,
+  ) {
     const codeData = await axios.get(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`)
     const kakaoAccessToken = codeData.data.access_token
     const kakaoUserData = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
@@ -16,6 +20,7 @@ export class UserController {
       },
     })
     const existUserData = await User.findOne({ where: { kakaoID: kakaoUserData.data.id } })
+    const expires = new Date(Date.now() + 60 * 60 * 1000 * 24 * 7)
     if (!existUserData) {
       // 데이터가 없으면 가입
       const user = new User()
@@ -35,14 +40,19 @@ export class UserController {
       user.profileURL = profileImage
       const saveData = await user.save()
       delete saveData.kakaoID
-      return {
-        ...saveData,
-      }
+      const accessToken = generateAccessToken(saveData)
+      res.cookie('userToken', accessToken, {
+        expires,
+        path: '/',
+      })
+      return
     }
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
-    return {
-      ...existUserData,
-    }
+    const accessToken = generateAccessToken(existUserData)
+    res.cookie('userToken', accessToken, {
+      expires,
+      path: '/',
+    })
   }
 }
