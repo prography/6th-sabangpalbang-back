@@ -23,12 +23,12 @@ export class UserController {
           nickname,
           profile_image: profileImage,
         },
-        kakao_account: {
-          email,
-        },
+        kakao_account: kakaoAccount,
       } = kakaoUserData.data
       user.kakaoID = id
-      user.email = email
+      if (kakaoAccount.email) {
+        user.email = kakaoAccount.email
+      }
       user.name = nickname
       user.profileURL = profileImage
       const saveData = await user.save()
