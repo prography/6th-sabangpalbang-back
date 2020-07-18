@@ -65,9 +65,12 @@ export class CocktailController {
 
   @Get('/:cocktailIdx')
   async getCocktailDetail(@Param('cocktailIdx') cocktailIdx: string) {
-    return await this.cocktailRepository
-      .createQueryBuilder('cocktail')
-      .where('cocktail.idx = :cocktailIdx', { cocktailIdx })
-      .getOne()
+    const cocktails = await this.cocktailRepository.find({
+      where: {
+        idx: cocktailIdx,
+      },
+      relations: ['tags', 'flavors', 'base', 'abvClassification'],
+    })
+    return { cocktails }
   }
 }
