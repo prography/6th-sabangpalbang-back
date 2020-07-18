@@ -1,29 +1,29 @@
 name,abv,non_abv,abv_classification,ingredients,flavor,tag,base,description,img_url
 골드메달리스트,0,1,0,"딸기, 바나나","딸기, 바나나","딸기, 바나나, 그레나딘 시럽, 콜라다 믹서",없음,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-깔루아 밀크,5,1,1,우유,우유,"깔루아, 우유",깔루아,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-데낄라 선라이즈,12,0,2,"오렌지 주스, 그레나딘 시럽",오렌지,"데킬라, 오렌지",데킬라,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+깔루아 밀크,5,1,1,우유,우유,"깔루아, 우유",깔루아,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Kahlua+Milk.jpg
+데낄라 선라이즈,12,0,2,"오렌지 주스, 그레나딘 시럽",오렌지,"데킬라, 오렌지",데킬라,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Tequila+Sunrise.jpg
 동해,20,0,3,"복숭아, 코코넛, 바나나, 레몬, 피치 트리, 블루 큐라소, 레몬 주스, 라임 주스, 설탕 시럽",복숭아,"리큐어, 바나나 리큐르, 말리부, 복숭아, 코코넛, 바나나, 레몬, 피치 트리, 블루 큐라소, 레몬 주스, 라임 주스, 설탕 시럽",리큐어,복숭아맛 술에 사과쥬스의 조합,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-드라이 마티니,30,0,5,,술,"진, 베르무트, 도수가 쎈",진,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-롱 아일랜드 아이스티,25,0,4,"콜라, 레몬","레몬, 아이스티","진, 보드카, 럼, 데킬라",진,"럼, 진, 보드카 등 여러 술에 콜라를 섞은 폭탄주",https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-마르가리타,30,0,5,"트리플 섹, 라임 주스","오렌지, 라임","데킬라, 라임",데킬라,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-말리부오렌지,22,0,4,"코코넛, 오렌지",코코넛,"코코넛, 오렌지",말리부,말리부 술에 오렌지쥬스의 조합,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-미도리 샤워,10,0,1,"메론, 레몬",메론,"메론, 레몬",미도리,상큼한 메론맛 칵테일,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+드라이 마티니,30,0,5,,술,"진, 베르무트, 도수가 쎈",진,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Dry+martini.jpg
+롱 아일랜드 아이스티,25,0,4,"콜라, 레몬","레몬, 아이스티","진, 보드카, 럼, 데킬라",진,"럼, 진, 보드카 등 여러 술에 콜라를 섞은 폭탄주",https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Long+Island+Iced+Tea.jpg
+마르가리타,30,0,5,"트리플 섹, 라임 주스","오렌지, 라임","데킬라, 라임",데킬라,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Margarita.jpg
+말리부오렌지,22,0,4,"코코넛, 오렌지",코코넛,"코코넛, 오렌지",말리부,말리부 술에 오렌지쥬스의 조합,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Orange+Malibu.jpg
+미도리 샤워,10,0,1,"메론, 레몬",메론,"메론, 레몬",미도리,상큼한 메론맛 칵테일,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/midori+shower.jpg
 불스아이,100,0,100,"오렌지, 설탕 시럽, 진저 에일",오렌지,"진, 오렌지, 설탕 시럽, 진저 에일",없음,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-블랙 러시안,32,0,6,,커피,"보드카, 깔루아, 도수가 쎈",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-블루 하와이,10,0,1,"파인애플 주스, 라임주스",라임,"적당한, 파인애플, 라임, 블루 큐라소",럼,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-섹스 온 더 비치,14,0,2,"크랜베리 주스, 오렌지 주스, 파인애플 주스","오렌지, 파인애플, 크렌베리, 복숭아","베리, 오렌지, 파인애플, 복숭아, 진, 보드카, 크렘 드 카시스, 피치 브랜디",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-스크류드라이버,25,0,4,오렌지 주스,오렌지,"보드카, 오렌지",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+블랙 러시안,32,0,6,,커피,"보드카, 깔루아, 도수가 쎈",보드카,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Black+Russian.jpg
+블루 하와이,10,0,1,"파인애플 주스, 라임주스",라임,"적당한, 파인애플, 라임, 블루 큐라소",럼,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Blue+hawaii.jpg
+섹스 온 더 비치,14,0,2,"크랜베리 주스, 오렌지 주스, 파인애플 주스","오렌지, 파인애플, 크렌베리, 복숭아","베리, 오렌지, 파인애플, 복숭아, 진, 보드카, 크렘 드 카시스, 피치 브랜디",보드카,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/sex+on+the+beach.jpg
+스크류드라이버,25,0,4,오렌지 주스,오렌지,"보드카, 오렌지",보드카,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/Screw+Driver.jpg
 신데렐라,0,1,0,"레몬, 오렌지, 파인애플",신맛,"레몬, 오렌지, 파인애플",없음,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 아쿠아마린,0,1,0,"피치트리, 블루퀴라소, 쿠앵트로, 사과주스","오렌지, 사과","보드카, 피치, 퀴라소, 사과",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 애플 마티니,20,0,3,"애플, 라임",사과,보드카,보드카,마티니 중 여자들이 가장 선호하는 사과맛 마티니,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/apple+martini.jpg
 옥보단,8,0,1,"복숭아, 코코넛, 레몬, 오렌지","석류, 체리",리큐어,리큐어,복숭아의 코코넛 술에 상큼한 오렌지쥬스와 석류시럽,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-우우,14,0,2,"크랜베리 주스, 피치 시냅스",복숭아,"보드카, 피치, 크랜베리",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+우우,14,0,2,"크랜베리 주스, 피치 시냅스",복숭아,"보드카, 피치, 크랜베리",보드카,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/woo+woo.jpg
 준벅,10,0,1,"메론, 코코넛, 바나나, 레몬, 파인",메론,리큐어,리큐어,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-진 토닉,10,0,1,토닉워터,술,"진, 적당한",진,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+진 토닉,10,0,1,토닉워터,술,"진, 적당한",진,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/gin+tonic.jpg
 체리블라썸,30,0,5,"체리, 레몬",체리,브랜디,브랜디,달콤한 체리향이 매력적인 칵테일,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-카시스오렌지,20,0,3,오렌지,오렌지,"카시스 리큐르, 오렌지",카시스,와인과 비슷한 카시스와 오렌지쥬스의 조합,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-코스모폴리탄,18,0,3,"크랜베리 주스, 라임 주스","라임, 오렌지","보드카, 크랜베리, 라임, 트리플 섹",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+카시스오렌지,20,0,3,오렌지,오렌지,"카시스 리큐르, 오렌지",카시스,와인과 비슷한 카시스와 오렌지쥬스의 조합,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/cassis+orange.jpg
+코스모폴리탄,18,0,3,"크랜베리 주스, 라임 주스","라임, 오렌지","보드카, 크랜베리, 라임, 트리플 섹",보드카,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/cosmo+politan.jpg
 파우스트,47,0,7,,술,"도수가 쎈, 화이트 럼, 크렘 드 카시스, 바카디 151",바카디 151,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
 피치 크러쉬,20,0,3,"스윗 앤 사워 믹스, 크랜베리 주스",복숭아,"피치 시냅스, 크랜베리 주스, 조금 쎈",피치 시냅스,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-화이트 러시안,32,0,6,우유,"커피, 우유","보드카, 깔루아, 조금 쎈, 우유",보드카,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
-B&B,40,0,7,,술,"꼬냑, 도수가 쎈, 브랜디, 베네딕틴 D.O.M.",꼬냑,,https://user-images.githubusercontent.com/49062985/83231714-ef621300-a1c6-11ea-9786-eb8ee3f00bfc.jpg
+화이트 러시안,32,0,6,우유,"커피, 우유","보드카, 깔루아, 조금 쎈, 우유",보드카,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/white+russian.jpg
+B&B,40,0,7,,술,"꼬냑, 도수가 쎈, 브랜디, 베네딕틴 D.O.M.",꼬냑,,https://s3.ap-northeast-2.amazonaws.com/image.cocktender.fun/b%26b.jpg
