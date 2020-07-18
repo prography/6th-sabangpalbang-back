@@ -20,6 +20,7 @@ export class CocktailController {
     @QueryParam('limit') limit: number,
     @QueryParam('abvMin') abvMin: number,
     @QueryParam('abvMax') abvMax: number,
+    @QueryParam('abvSort') abvSort: string,
   ) {
     if (offset && !limit) {
       throw new BadRequestError('offset 값은 limit 없이 사용할 수 없습니다.')
@@ -35,11 +36,20 @@ export class CocktailController {
     if (abvMin == undefined && abvMax !== undefined) {
       where.abv = LessThanOrEqual(abvMax)
     }
+    const order: any = {}
+    if (abvSort) {
+      if (abvSort == 'ASC' || abvSort == 'DESC') {
+        order.abv = abvSort
+      } else {
+        throw new BadRequestError('도수 정렬 값은 ASC 혹은 DESC만 가능합니다.')
+      }
+    }
     const cocktails = await this.cocktailRepository.find({
       where,
       relations: ['tags', 'flavors', 'base', 'abvClassification'],
       take: limit,
       skip: offset,
+      order,
     })
     return { cocktails }
   }
