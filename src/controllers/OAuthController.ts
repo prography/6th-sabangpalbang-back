@@ -34,16 +34,14 @@ export class UserController {
       user.profileURL = profileImage
       const saveData = await user.save()
       delete saveData.kakaoID
-      const accessToken = generateAccessToken(saveData)
       return {
-        accessToken,
+        saveData,
       }
     }
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
-    const accessToken = generateAccessToken(existUserData)
     return {
-      accessToken,
+      existUserData,
     }
   }
 }
