@@ -1,4 +1,4 @@
-import { Get, JsonController, QueryParam } from 'routing-controllers'
+import { Get, JsonController, QueryParam, Redirect } from 'routing-controllers'
 import axios from 'axios'
 import { User } from '../entity/User'
 import { generateAccessToken } from '../libs/token'
@@ -6,6 +6,7 @@ import { generateAccessToken } from '../libs/token'
 @JsonController('/oauth')
 export class UserController {
   @Get('/redirect')
+  @Redirect(process.env.REDIRECT_URI)
   async redirectController(@QueryParam('code') code: string) {
     const codeData = await axios.get(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`)
     const kakaoAccessToken = codeData.data.access_token
