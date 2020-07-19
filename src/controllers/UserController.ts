@@ -1,4 +1,4 @@
-import { BodyParam, HeaderParam, JsonController, Patch, Post, UseBefore } from 'routing-controllers'
+import { BodyParam, Get, HeaderParam, JsonController, Patch, Post, UseBefore } from 'routing-controllers'
 import { UserAccessMiddleware } from '../middlewares/userAccessMiddleware'
 import { Review } from '../entity/Review'
 import { ConflictError } from '../http-errors/ConflictError'
@@ -50,5 +50,18 @@ export class CocktailController {
     like.user = user
     await like.save()
     return {}
+  }
+
+  // 즐겨찾기 불러오는 기능
+  @Get('/likes')
+  async getLikes(
+    @HeaderParam('x-user-idx') userIdx: number,
+  ) {
+    const user = await User.findOne(userIdx)
+    const cocktail = await Like.find({
+      where: { user },
+      relations: ['cocktail'],
+    })
+    return { cocktail }
   }
 }
