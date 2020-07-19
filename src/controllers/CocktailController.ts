@@ -278,6 +278,7 @@ export class CocktailController {
       where: {
         idx: cocktailIdx,
       },
+      // TODO: 유저 정보 return 일부만 되게 수정
       relations: ['tags', 'flavors', 'base', 'abvClassification', 'reviews', 'reviews.user', 'likes'],
     })
     return { cocktails }
