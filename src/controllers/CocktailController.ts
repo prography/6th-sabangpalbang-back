@@ -278,7 +278,7 @@ export class CocktailController {
       where: {
         idx: cocktailIdx,
       },
-      relations: ['tags', 'flavors', 'base', 'abvClassification'],
+      relations: ['tags', 'flavors', 'base', 'abvClassification', 'reviews', 'reviews.user', 'likes'],
     })
     return { cocktails }
   }
