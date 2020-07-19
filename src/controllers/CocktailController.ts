@@ -274,13 +274,13 @@ export class CocktailController {
 
   @Get('/:cocktailIdx')
   async getCocktailDetail(@Param('cocktailIdx') cocktailIdx: string) {
-    const cocktails = await this.cocktailRepository.find({
+    const cocktails = await this.cocktailRepository.findOne({
       where: {
         idx: cocktailIdx,
       },
       // TODO: 유저 정보 return 일부만 되게 수정
       relations: ['tags', 'flavors', 'base', 'abvClassification', 'reviews', 'reviews.user', 'likes'],
     })
-    return { cocktails }
+    return cocktails
   }
 }
