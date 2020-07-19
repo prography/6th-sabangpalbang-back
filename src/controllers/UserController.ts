@@ -1,4 +1,13 @@
-import { BodyParam, Get, HeaderParam, JsonController, Patch, Post, UseBefore } from 'routing-controllers'
+import {
+  BodyParam, Delete,
+  Get,
+  HeaderParam,
+  JsonController,
+  Param,
+  Patch,
+  Post,
+  UseBefore,
+} from 'routing-controllers'
 import { UserAccessMiddleware } from '../middlewares/userAccessMiddleware'
 import { Review } from '../entity/Review'
 import { ConflictError } from '../http-errors/ConflictError'
@@ -40,6 +49,22 @@ export class CocktailController {
       where: { user },
       relations: ['cocktail'],
     })
+  }
+
+  // 리뷰 삭제하는 기능
+  @Delete('/reviews/:reviewIdx')
+  async deleteReviews(
+    @HeaderParam('x-user-idx') userIdx: number,
+    @Param('reviewIdx') reviewIdx: number,
+  ) {
+    const user = await User.findOne(userIdx)
+    const review = await Review.findOne({
+      where: { user, idx: reviewIdx },
+    })
+    if (!review) {
+      throw new NotFoundError('해당 리뷰가 존재하지 않습니다.')
+    }
+    return await Review.remove(review)
   }
 
   // 즐겨찾기 기능
