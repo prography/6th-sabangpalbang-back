@@ -1,10 +1,20 @@
-import { BodyParam, HeaderParam, JsonController, Patch, Post, UseBefore } from 'routing-controllers'
+import {
+  BodyParam, Delete,
+  Get,
+  HeaderParam,
+  JsonController,
+  Param,
+  Patch,
+  Post,
+  UseBefore,
+} from 'routing-controllers'
 import { UserAccessMiddleware } from '../middlewares/userAccessMiddleware'
 import { Review } from '../entity/Review'
 import { ConflictError } from '../http-errors/ConflictError'
 import { Cocktail } from '../entity/Cocktail'
 import { User } from '../entity/User'
 import { Like } from '../entity/Like'
+import { NotFoundError } from '../http-errors/NotFoundError'
 
 @UseBefore(UserAccessMiddleware)
 @JsonController('/users')
@@ -29,6 +39,34 @@ export class CocktailController {
     return {}
   }
 
+  // 리뷰 불러오는 기능
+  @Get('/reviews')
+  async getReviews(
+    @HeaderParam('x-user-idx') userIdx: number,
+  ) {
+    const user = await User.findOne(userIdx)
+    return await Review.find({
+      where: { user },
+      relations: ['cocktail'],
+    })
+  }
+
+  // 리뷰 삭제하는 기능
+  @Delete('/reviews/:reviewIdx')
+  async deleteReviews(
+    @HeaderParam('x-user-idx') userIdx: number,
+    @Param('reviewIdx') reviewIdx: number,
+  ) {
+    const user = await User.findOne(userIdx)
+    const review = await Review.findOne({
+      where: { user, idx: reviewIdx },
+    })
+    if (!review) {
+      throw new NotFoundError('해당 리뷰가 존재하지 않습니다.')
+    }
+    return await Review.remove(review)
+  }
+
   // 즐겨찾기 기능
   // 이미 즐겨찾기가 되어있는거 한번 더 호출하면 즐겨찾기 해제
   @Patch('/likes')
@@ -37,7 +75,13 @@ export class CocktailController {
     @BodyParam('cocktailIdx') cocktailIdx: number,
   ) {
     const cocktail = await Cocktail.findOne(cocktailIdx)
+    if (!cocktail) {
+      throw new NotFoundError('칵테일 정보를 찾을 수 없습니다.')
+    }
     const user = await User.findOne(userIdx)
+    if (!user) {
+      throw new NotFoundError('유저 정보를 찾을 수 없습니다.')
+    }
     const existLike = await Like.findOne({ where: { user, cocktail } })
     if (existLike) {
       // 즐겨찾기 삭제
@@ -50,5 +94,17 @@ export class CocktailController {
     like.user = user
     await like.save()
     return {}
+  }
+
+  // 즐겨찾기 불러오는 기능
+  @Get('/likes')
+  async getLikes(
+    @HeaderParam('x-user-idx') userIdx: number,
+  ) {
+    const user = await User.findOne(userIdx)
+    return await Like.find({
+      where: { user },
+      relations: ['cocktail'],
+    })
   }
 }
