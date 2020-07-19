@@ -30,6 +30,18 @@ export class CocktailController {
     return {}
   }
 
+  // 리뷰 불러오는 기능
+  @Get('/reviews')
+  async getReviews(
+    @HeaderParam('x-user-idx') userIdx: number,
+  ) {
+    const user = await User.findOne(userIdx)
+    return await Review.find({
+      where: { user },
+      relations: ['cocktail'],
+    })
+  }
+
   // 즐겨찾기 기능
   // 이미 즐겨찾기가 되어있는거 한번 더 호출하면 즐겨찾기 해제
   @Patch('/likes')
