@@ -1,12 +1,14 @@
-import { Get, JsonController, QueryParam, Res } from 'routing-controllers'
+import { Get, JsonController, QueryParam, Redirect, Res } from 'routing-controllers'
 import axios from 'axios'
 import { User } from '../entity/User'
+// eslint-disable-next-line no-unused-vars
 import { Response } from 'express'
 import { generateAccessToken } from '../libs/token'
 
 @JsonController('/oauth')
 export class UserController {
   @Get('/redirect')
+  @Redirect(process.env.COOKIE_SET_REDIRECT)
   async redirectController(
     @Res() res: Response,
     @QueryParam('code') code: string,
@@ -42,19 +44,18 @@ export class UserController {
       const accessToken = generateAccessToken(saveData)
       res.cookie('userToken', accessToken, {
         expires,
-        domain: process.env.REDIRECT_URI.split(':3000')[0],
+        domain: process.env.COOKIE_SET_DOMAIN,
         path: '/',
-      }).redirect(302, `http://${process.env.REDIRECT_URI}`)
+      })
       return
     }
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
     const accessToken = generateAccessToken(existUserData)
-    // TODO: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client 해결
     res.cookie('userToken', accessToken, {
       expires,
-      domain: process.env.REDIRECT_URI.split(':3000')[0],
+      domain: process.env.COOKIE_SET_DOMAIN,
       path: '/',
-    }).redirect(302, `http://${process.env.REDIRECT_URI}`)
+    })
   }
 }
