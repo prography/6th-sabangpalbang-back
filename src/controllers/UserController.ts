@@ -77,10 +77,9 @@ export class CocktailController {
     @HeaderParam('x-user-idx') userIdx: number,
   ) {
     const user = await User.findOne(userIdx)
-    const cocktail = await Like.find({
+    return await Like.find({
       where: { user },
       relations: ['cocktail'],
     })
-    return { cocktail }
   }
 }
