@@ -5,6 +5,7 @@ import { ConflictError } from '../http-errors/ConflictError'
 import { Cocktail } from '../entity/Cocktail'
 import { User } from '../entity/User'
 import { Like } from '../entity/Like'
+import { NotFoundError } from '../http-errors/NotFoundError'
 
 @UseBefore(UserAccessMiddleware)
 @JsonController('/users')
@@ -37,7 +38,13 @@ export class CocktailController {
     @BodyParam('cocktailIdx') cocktailIdx: number,
   ) {
     const cocktail = await Cocktail.findOne(cocktailIdx)
+    if (!cocktail) {
+      throw new NotFoundError('칵테일 정보를 찾을 수 없습니다.')
+    }
     const user = await User.findOne(userIdx)
+    if (!user) {
+      throw new NotFoundError('유저 정보를 찾을 수 없습니다.')
+    }
     const existLike = await Like.findOne({ where: { user, cocktail } })
     if (existLike) {
       // 즐겨찾기 삭제
