@@ -2,12 +2,14 @@ import {
   BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
-  Column, JoinColumn, ManyToOne, ManyToMany, JoinTable, Unique,
+  Column, JoinColumn, ManyToOne, ManyToMany, JoinTable, Unique, OneToMany,
 } from 'typeorm'
 import { AbvClassification } from './AbvClassification'
 import { Base } from './Base'
 import { Tag } from './Tag'
 import { Flavor } from './Flavor'
+import { Review } from './Review'
+import { Like } from './Like'
 
 export class CocktailData {
   imgUrl: string;
@@ -75,6 +77,18 @@ export class Cocktail extends BaseEntity {
   @ManyToOne(() => AbvClassification)
   @JoinColumn({ name: 'abv_classification' })
   abvClassification: AbvClassification;
+
+  @OneToMany(
+    (type) => Review,
+    (review) => review.cocktail,
+  )
+  reviews: Review[];
+
+  @OneToMany(
+    (type) => Like,
+    (like) => like.cocktail,
+  )
+  likes: Like[];
 
   static async saveData(data: CocktailData) {
     const cocktail = new Cocktail()
