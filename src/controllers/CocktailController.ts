@@ -268,7 +268,8 @@ export class CocktailController {
       where: {
         idx: Math.floor(Math.random() * (cocktailCount - 1)) + 1,
       },
-      relations: ['tags', 'flavors', 'base', 'abvClassification'],
+      // TODO: 유저 정보 return 일부만 되게 수정
+      relations: ['tags', 'flavors', 'base', 'abvClassification', 'reviews', 'reviews.user', 'likes'],
     })
   }
 
