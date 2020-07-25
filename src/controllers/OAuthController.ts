@@ -41,12 +41,11 @@ export class UserController {
       const saveData = await user.save()
       delete saveData.kakaoID
       const accessToken = generateAccessToken(saveData)
-      res.redirect(`${process.env.COOKIE_SET_REDIRECT}/token?accessToken=${accessToken}`)
-      return
+      return res.redirect(`${process.env.COOKIE_SET_REDIRECT}/token?accessToken=${accessToken}`)
     }
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
     const accessToken = generateAccessToken(existUserData)
-    res.redirect(`${process.env.COOKIE_SET_REDIRECT}/token?accessToken=${accessToken}`)
+    return res.redirect(`${process.env.COOKIE_SET_REDIRECT}/token?accessToken=${accessToken}`)
   }
 }
