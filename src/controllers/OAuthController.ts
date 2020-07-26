@@ -8,7 +8,6 @@ import { generateAccessToken } from '../libs/token'
 @JsonController('/oauth')
 export class UserController {
   @Get('/redirect')
-  @Redirect(process.env.COOKIE_SET_REDIRECT)
   async redirectController(
     @Res() res: Response,
     @QueryParam('code') code: string,
@@ -42,20 +41,11 @@ export class UserController {
       const saveData = await user.save()
       delete saveData.kakaoID
       const accessToken = generateAccessToken(saveData)
-      res.cookie('userToken', accessToken, {
-        expires,
-        domain: process.env.COOKIE_SET_DOMAIN,
-        path: '/',
-      })
-      return
+      return res.redirect(`${process.env.COOKIE_SET_REDIRECT}/token?accessToken=${accessToken}`)
     }
     // 데이터가 있으면 로그인 진행
     delete existUserData.kakaoID
     const accessToken = generateAccessToken(existUserData)
-    res.cookie('userToken', accessToken, {
-      expires,
-      domain: process.env.COOKIE_SET_DOMAIN,
-      path: '/',
-    })
+    return res.redirect(`${process.env.COOKIE_SET_REDIRECT}/token?accessToken=${accessToken}`)
   }
 }
